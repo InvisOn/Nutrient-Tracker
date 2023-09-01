@@ -28,6 +28,7 @@ export default function IngredientsTab() {
 
     const handleAddIngredientPress = () => {
         alert(`You entered: ${productName}, ${protein}, ${fat}, ${carbs}, ${calories}`)
+        addIngredient(productName, parseFloat(protein), parseFloat(fat), parseFloat(carbs), parseFloat(calories))
     };
 
     //todo connect sqlite database
