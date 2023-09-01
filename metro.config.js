@@ -1,3 +1,4 @@
+// Metro is a JavaScript bundler for React Native
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config');
 
