@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import DynamicTable from '@/components/DynamicTable';
 import * as SQLite from "expo-sqlite"
 
-function createDatabase() {
+function createDatabase(): SQLite.Database {
     const db = SQLite.openDatabase("ingredients.db")
 
     return db
@@ -14,46 +14,44 @@ function createDatabase() {
 
 const db = createDatabase()
 
-function useForceUpdate() {
+function useForceUpdate(): [number, () => void] {
     const [value, setValue] = useState(0)
     return [value, () => setValue(value + 1)]
 }
 
 export default function IngredientsTab() {
-    const [productName, setProductName] = useState<string>('');
-    const [protein, setProtein] = useState<string>('0');
-    const [fat, setFat] = useState<string>('0');
-    const [carbs, setCarbs] = useState<string>('0');
-    const [calories, setCalories] = useState<string>('0');
+    const [productName, setProductName] = useState<string>('')
+    const [protein, setProtein] = useState<string>('0')
+    const [fat, setFat] = useState<string>('0')
+    const [carbs, setCarbs] = useState<string>('0')
+    const [calories, setCalories] = useState<string>('0')
 
     const handleAddIngredientPress = () => {
-        alert(`You entered: ${productName}, ${protein}, ${fat}, ${carbs}, ${calories}`);
+        alert(`You entered: ${productName}, ${protein}, ${fat}, ${carbs}, ${calories}`)
     };
 
     //todo connect sqlite database
-    const [text, setText] = useState(null)
     const [forceUpdateId, forceUpdate] = useForceUpdate()
 
     const createTable = (tx: SQLite.SQLTransaction) => {
-        tx.executeSql("DROP TABLE IF EXISTS items;"); // todo remove when done with this page
+        tx.executeSql("DROP TABLE IF EXISTS ingredients;"); // !! temporary, to force execution of the code below
         tx.executeSql(
-            "create table if not exists items (id integer primary key not null, name text, protein real, fat real, carbs real, energy real);"
+            "CREATE TABLE IF NOT EXISTS  ingredients (id INTEGER PRIMARY KEY NOT NULL, name TEXT, protein REAL, fat REAL, carbs REAL, energy REAL);"
         )
 
-
+        // !! temporary, to fill the table
         for (let i = 1; i <= 20; i++) {
-            // break;
             db.transaction(
                 (tx) => {
-                    tx.executeSql("insert into items (id, name, protein, fat, carbs, energy) values (0, ?)", [i,
+                    tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
                         `name ${i}`,
                         i,
                         i,
                         i,
                         i,])
-                    tx.executeSql("select * from items", [], (_, { rows }) => console.log(JSON.stringify(rows)))
+                    tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
                 },
-                null,
+                (error) => console.log(error),
                 forceUpdate
             )
         }
@@ -61,33 +59,30 @@ export default function IngredientsTab() {
 
     useEffect(() => { db.transaction(createTable) }, [])
 
-    const add = (
+    const addIngredient = (
         productName: string,
         protein: number,
         fat: number,
         carbs: number,
         calories: number,
     ) => {
-        // is text empty?
         if (productName === null || productName === "") {
             return false
         }
 
         db.transaction(
             (tx) => {
-                tx.executeSql("insert into items ( name, protein, fat, carbs, energy) values (0, ?)", [productName,
+                tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [productName,
                     protein,
                     fat,
                     carbs,
                     calories,])
-                tx.executeSql("select * from items", [], (_, { rows }) => console.log(JSON.stringify(rows)))
+                tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
             },
-            null,
+            (error) => console.log(error),
             forceUpdate,
         )
     }
-
-    add("name", 1, 1, 1, 1)
 
     const columns = [
         { title: 'Name' },
@@ -105,8 +100,8 @@ export default function IngredientsTab() {
         'Energy': "Energy (kJ)",
     }
 
+    // !! temporary, to fill the table
     const rows = [];
-
     for (let i = 1; i <= 20; i++) {
         rows.push({ key: i, Name: `Food ${i}`, Protein: i, Fat: i * 2, Carbs: i * 3, Energy: i * 4 });
     }
