@@ -8,6 +8,7 @@ type Props = {
     inputMode: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
     flex: number;
     placeholder: string;
+    value: string;
     onChangeText: (text: string) => void
 }
 
@@ -16,6 +17,7 @@ const InputWithLabel: React.FC<Props> = ({
     inputMode,
     flex,
     placeholder,
+    value,
     onChangeText
 }) => {
     return (
@@ -28,6 +30,7 @@ const InputWithLabel: React.FC<Props> = ({
                 placeholder={placeholder}
                 inputMode={inputMode}
                 onChangeText={onChangeText}
+                value={value}
             />
         </View>
     )

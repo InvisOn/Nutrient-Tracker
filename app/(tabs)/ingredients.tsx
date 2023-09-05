@@ -21,10 +21,10 @@ function useForceUpdate(): [number, () => void] {
 
 export default function IngredientsTab() {
     const [productName, setProductName] = useState<string>('')
-    const [protein, setProtein] = useState<string>('0')
-    const [fat, setFat] = useState<string>('0')
-    const [carbs, setCarbs] = useState<string>('0')
-    const [calories, setCalories] = useState<string>('0')
+    const [protein, setProtein] = useState<string>('')
+    const [fat, setFat] = useState<string>('')
+    const [carbs, setCarbs] = useState<string>('')
+    const [calories, setCalories] = useState<string>('')
 
     // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
     const [forceUpdateId, forceUpdate] = useForceUpdate()
@@ -48,7 +48,7 @@ export default function IngredientsTab() {
                     tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
                 },
                 (error) => console.log(error),
-                forceUpdate
+                // forceUpdate
             )
         }
     }
@@ -56,9 +56,11 @@ export default function IngredientsTab() {
     useEffect(() => { db.transaction(createTable) }, [])
 
     const handleAddIngredientPress = () => {
+        console.log('1', productName)
         if (productName === null || productName === "") {
             return false
         }
+        console.log('2', productName)
 
         db.transaction(
             (tx) => {
@@ -66,14 +68,17 @@ export default function IngredientsTab() {
                 tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
             },
             (error) => console.log(error),
-            forceUpdate,
+            // forceUpdate
         )
+        console.log('3', productName)
 
-        // setProductName('')
-        // setProtein('0')
-        // setFat('0')
-        // setCarbs('0')
-        // setCalories('0')
+        setProductName('') // ChatGPT this does not work like you suggested
+        console.log('4', productName)
+        setProtein('')
+        setFat('')
+        setCarbs('')
+        setCalories('')
+        // forceUpdate()
     }
 
     const columns = [
@@ -126,33 +131,43 @@ export default function IngredientsTab() {
                 inputMode='text'
                 flex={0}
                 placeholder=''
-                onChangeText={(name: string) => setProductName(name)} />
+                onChangeText={(name: string) => setProductName(name)}
+                value={productName}
+            />
             <View style={styles.containerMacros}>
                 <InputWithLabel
                     label='Protein (g):'
                     inputMode='numeric'
                     flex={1}
                     placeholder='0'
-                    onChangeText={(protein: string) => setProtein(protein)} />
+                    onChangeText={(protein: string) => setProtein(protein)}
+                    value={protein}
+                />
                 <InputWithLabel
                     label='Fat (g):'
                     inputMode='numeric'
                     flex={1}
                     placeholder='0'
-                    onChangeText={(fat: string) => setFat(fat)} />
+                    onChangeText={(fat: string) => setFat(fat)}
+                    value={fat}
+                />
                 <InputWithLabel
                     label='Carbs (g):'
                     inputMode='numeric'
                     flex={1}
                     placeholder='0'
-                    onChangeText={(carbs: string) => setCarbs(carbs)} />
+                    onChangeText={(carbs: string) => setCarbs(carbs)}
+                    value={carbs}
+                />
                 <InputWithLabel  // todo add toggle to switch from calls to kJ input
                     // todo calculates this value as a placeholder from macros
                     label='Energy (kJ):'
                     inputMode='numeric'
                     flex={1}
                     placeholder='0'
-                    onChangeText={(calories: string) => setCalories(calories)} />
+                    onChangeText={(calories: string) => setCalories(calories)}
+                    value={calories}
+                />
             </View>
             <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
             <DynamicTable columns={columns} rows={rows} column_map={column_map} />
