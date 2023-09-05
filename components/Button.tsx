@@ -8,8 +8,7 @@ export type Props = {
 const Button: React.FC<Props> = ({
     label, onPress
 }) => {
-    // todo How to make this minimum size based on the screen so that it is never too big?
-    // todo currently the size is controlled by the View that this component is in.
+    // todo How to make this minimum size based on the screen so that it is never too big? Currently the size is controlled by the View that this component is in.
     return (
         <View style={{ marginVertical: 10, marginHorizontal: 6 }}>
             <Pressable

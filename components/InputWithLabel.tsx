@@ -9,7 +9,7 @@ type Props = {
     flex: number;
     placeholder: string;
     value: string;
-    onChangeText: (text: string) => void
+    onChangeText: (text: number | string) => void
 }
 
 const InputWithLabel: React.FC<Props> = ({
