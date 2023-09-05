@@ -58,6 +58,7 @@ export default function IngredientsTab() {
     const handleAddIngredientPress = () => {
         console.log('1', productName)
         if (productName === null || productName === "") {
+            alert("Please type a ingredient name.")
             return false
         }
         console.log('2', productName)
