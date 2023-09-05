@@ -26,12 +26,7 @@ export default function IngredientsTab() {
     const [carbs, setCarbs] = useState<string>('0')
     const [calories, setCalories] = useState<string>('0')
 
-    const handleAddIngredientPress = () => {
-        alert(`You entered: ${productName}, ${protein}, ${fat}, ${carbs}, ${calories}`)
-        addIngredient(productName, parseFloat(protein), parseFloat(fat), parseFloat(carbs), parseFloat(calories))
-    };
-
-    //todo connect sqlite database
+    // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
     const [forceUpdateId, forceUpdate] = useForceUpdate()
 
     const createTable = (tx: SQLite.SQLTransaction) => {
@@ -60,29 +55,25 @@ export default function IngredientsTab() {
 
     useEffect(() => { db.transaction(createTable) }, [])
 
-    const addIngredient = (
-        productName: string,
-        protein: number,
-        fat: number,
-        carbs: number,
-        calories: number,
-    ) => {
+    const handleAddIngredientPress = () => {
         if (productName === null || productName === "") {
             return false
         }
 
         db.transaction(
             (tx) => {
-                tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [productName,
-                    protein,
-                    fat,
-                    carbs,
-                    calories,])
+                tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [productName, parseFloat(protein), parseFloat(fat), parseFloat(carbs), parseFloat(calories),])
                 tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
             },
             (error) => console.log(error),
             forceUpdate,
         )
+
+        // setProductName('')
+        // setProtein('0')
+        // setFat('0')
+        // setCarbs('0')
+        // setCalories('0')
     }
 
     const columns = [
@@ -100,6 +91,24 @@ export default function IngredientsTab() {
         'Carbs': "Carbs (g)",
         'Energy': "Energy (kJ)",
     }
+
+    // todo update table with stuff fom db in the ui
+    // shoud be below type:
+    // type Row = {
+    //     [key: string]: string | number
+    // };
+    // try this:
+    // tx.executeSql("SELECT name, protein, fat, carbs, energy FROM ingredients", [], (_, { rows }) => {
+    //     const typedRows: Row[] = rows._array.map((row: any) => {
+    //       const newRow: Row = {};
+    //       Object.keys(row).forEach((key) => {
+    //         newRow[key] = row[key];
+    //       });
+    //       return newRow;
+    //     });
+    //     console.log(JSON.stringify(typedRows));
+    //   });
+    // todo also figure out how to forceupdate the table in the ui
 
     // !! temporary, to fill the table
     const rows = [];
