@@ -22,3 +22,11 @@
 ---
 
 - [Learn to become a modern React Native developer](https://roadmap.sh/react-native)
+
+---
+
+## More Resources
+
+- [awesome-react: A collection of awesome things regarding React ecosystem](https://github.com/enaqx/awesome-react)
+- [awesome-react-native: Awesome React Native components, news, tools, and learning material!](https://github.com/jondot/awesome-react-native)
+- [create-react-app: Set up a modern web app by running one command.](https://github.com/facebook/create-react-app)

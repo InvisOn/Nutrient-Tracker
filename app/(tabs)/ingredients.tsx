@@ -73,6 +73,13 @@ export default function IngredientsTab() {
             return false
         }
 
+        const allNumbers = [gram_protein, gram_fat, gram_carbs, energy].every(i => typeof i === 'number')
+
+        if (!allNumbers) {
+            alert('Please input only numbers for protein, fat, carbs, and energy.')
+            return false
+        }
+
         db.transaction(
             (tx) => {
                 tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
