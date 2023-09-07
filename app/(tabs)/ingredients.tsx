@@ -105,7 +105,7 @@ const IngredientsTab = () => {
 
     const handlePressRow = (row_id: number) => {
         const router = useRouter()
-        router.push('/edit_ingredient_page')
+        router.push('/editIngredientPage')
     }
 
     const columnHeader = [
