@@ -42,11 +42,11 @@ const IngredientsTab = () => {
         // !! temporary, to fill the table
         for (let i = 20; i >= 1; i--) {
             tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
-                `Food ${i}23456789`,
-                i,
-                i,
-                i,
-                i
+                `Food ${i}`,
+                i * 10,
+                i * 10,
+                i * 10,
+                i * 10
             ])
         }
     }
@@ -66,8 +66,9 @@ const IngredientsTab = () => {
     }
 
 
-    // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
-    const [forceUpdateId, forceUpdate] = useForceUpdate()
+    // Is used to trigger a re-render of `<DynamicTable>` to reflect database changes.
+    const [forceUpdateId, forceUpdate] = useForceUpdate();
+
 
     const handleAddIngredientPress = () => {
         if (productName === null || productName === "") {
@@ -106,21 +107,15 @@ const IngredientsTab = () => {
         setEnergy('')
     }
 
-    const columns = [
-        { title: 'name' },
-        { title: 'protein', numeric: true },
-        { title: 'fat', numeric: true },
-        { title: 'carbs', numeric: true },
-        { title: 'energy', numeric: true }
+    const column_header = [
+        'Ingredient',
+        'Protein',
+        'Fat',
+        'Carbs',
+        'Energy'
     ]
 
-    let column_header_map: { [key: string]: string } = {
-        'name': "Name",
-        'protein': "Protein (g)",
-        'fat': "Fat (g)",
-        'carbs': "Carbs (g)",
-        'energy': "Energy (kJ)",
-    }
+    const numericCols = [1, 2, 3, 4]
 
     const getIngredientsSql = "SELECT name, protein, fat, carbs, energy FROM ingredients"
 
@@ -174,9 +169,10 @@ const IngredientsTab = () => {
             </View>
             <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
             <DynamicTable
-                key={`forceupdate-todo-${forceUpdateId}`}
-                columns={columns}
-                column_map={column_header_map}
+                key={`forceupdate-${forceUpdateId}`}
+                columns_header={column_header}
+                flexColumn={{ columnIndex: 0, flex: 4 }}
+                numericCols={numericCols}
                 database={database}
                 sql={getIngredientsSql}
             />

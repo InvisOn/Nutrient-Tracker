@@ -1,38 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native'
-import { DataTable } from 'react-native-paper'
 import * as SQLite from "expo-sqlite"
 
-type Props = {
-    columns: {
-        title: string,
-        numeric?: boolean
-    }[],
-    column_map: { [key: string]: string },
+type TableProps = {
+    columns_header: string[],
+    flexColumn: { columnIndex: number, flex: number },
+    numericCols: number[],
     database: SQLite.Database,
     sql: string
 }
 
-const numericCol = (
-    isNumeric: boolean,
-    colIndex: number,
-    row: any,
-    col: { title: string, numeric?: boolean }
-) => {
-    if (isNumeric) {
-        return (
-            <DataTable.Cell key={colIndex} numeric={col.numeric}>
-                {row[col.title]}
-            </DataTable.Cell>
-        )
-    } else {
-        <DataTable.Cell key={colIndex} numeric={col.numeric}>
-            {row[col.title]}
-        </DataTable.Cell>
-    }
-}
-
-const DynamicTable: React.FC<Props> = ({ columns, column_map, database, sql }) => {
+const DynamicTable: React.FC<TableProps> = ({
+    columns_header,
+    flexColumn = { columnIndex: 0, flex: 1 },
+    numericCols,
+    database,
+    sql }) => {
     const [rows, setRows] = useState<any[]>([])
 
     const getRows = (tx: SQLite.SQLTransaction) => {
@@ -43,52 +26,78 @@ const DynamicTable: React.FC<Props> = ({ columns, column_map, database, sql }) =
         )
     }
 
+    const row_array: string[][] = []
+    for (let i = 0; i < rows.length; i++) {
+        row_array.push(Object.values(rows[i]))
+    }
+
     useEffect(() => { database.transaction(getRows) }, [])
 
     return (
-        <View style={styles.container}>
-            <DataTable>
-                <DataTable.Header>
-                    {columns.map((col, index) => (
-                        <DataTable.Title key={index} numeric={col.numeric}>
-                            {column_map[col.title]}
-                        </DataTable.Title>
-                    ))}
-                </DataTable.Header>
-            </DataTable>
-            <ScrollView style={styles.scrollView}>
-                <DataTable>
-                    {rows.map((row, rowIndex) => (
-                        <TouchableOpacity
-                            key={rowIndex}
-                            // onPress={() => onPressItem && onPressItem(id)}
-                            style={{ borderWidth: 0.5 }}
-                        >
-                            <DataTable.Row key={rowIndex}>
-                                {columns.map((col, colIndex) => (
-                                    <DataTable.Cell key={colIndex} numeric={col.numeric}>
-                                        {row[col.title]}
-                                    </DataTable.Cell>
-                                ))}
-                            </DataTable.Row>
-                        </TouchableOpacity>
-                    ))}
-                </DataTable>
+        <View style={{ flex: 1 }}>
+            <View style={styles.header}>
+                {columns_header.map((value, headerIndex) => (
+                    <Text
+                        key={headerIndex}
+                        style={[
+                            styles.header_text,
+                            { textAlign: numericCols.includes(headerIndex) ? 'right' : 'left' },
+                            { flex: headerIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
+                        ]}>
+                        {value}
+                    </Text>
+                ))}
+            </View>
+            <ScrollView style={styles.scroll_view}>
+                {row_array.map((row, rowIndex) => (
+                    <TouchableOpacity
+                        key={rowIndex}
+                        // onPress={() => onPressItem && onPressItem(id)}
+                        style={{ borderWidth: 0.2 }}>
+                        <View style={styles.rows}>
+                            {row.map((value, cellIndex) => (
+                                <Text
+                                    key={cellIndex}
+                                    style={[
+                                        styles.row_text,
+                                        { textAlign: numericCols.includes(cellIndex) ? 'right' : 'left' },
+                                        { flex: cellIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
+                                    ]}>
+                                    {value}
+                                </Text>
+                            ))}
+                        </View>
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 6,
-        flexDirection: "column",
+    header_text: {
+        fontSize: 11,
+        fontWeight: 'bold'
     },
-    scrollView: {
+    row_text: {
+        fontSize: 11
+    },
+    header: {
+        flexDirection: 'row',
+        margin: 11
+    },
+    rows: {
+        flexDirection: 'row',
+        marginLeft: 11,
+        marginRight: 11,
+        marginBottom: 8,
+        marginTop: 8
+    },
+    scroll_view: {
         backgroundColor: "#f0f0f0",
+        flex: 1
     }
+
 })
 
 export default DynamicTable

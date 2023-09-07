@@ -23,7 +23,8 @@ export default function TabLayout() {
                 tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
             }}>
             <Tabs.Screen
-                name="index"
+                // name="index" // !! temp, swap back
+                name="ingredients" // !! temp, swap back
                 options={{
                     title: 'Overview',
                     tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -44,7 +45,8 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="ingredients"
+                // name="ingredients" // !! temp, swap back
+                name="index" // !! temp, swap back
                 options={{
                     title: 'Ingredients',
                     tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
