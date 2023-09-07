@@ -1,23 +1,49 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { DataTable } from 'react-native-paper';
-
-type Column = {
-    title: string,
-    numeric?: boolean
-};
-
-export type Row = {
-    [key: string]: string | number
-};
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native'
+import { DataTable } from 'react-native-paper'
+import * as SQLite from "expo-sqlite"
 
 type Props = {
-    columns: Column[],
-    rows: Row[],
+    columns: {
+        title: string,
+        numeric?: boolean
+    }[],
     column_map: { [key: string]: string },
-};
+    database: SQLite.Database,
+    sql: string
+}
 
-export const DynamicTable: React.FC<Props> = ({ columns, rows, column_map }) => {
+const numericCol = (
+    isNumeric: boolean,
+    colIndex: number,
+    row: any,
+    col: { title: string, numeric?: boolean }
+) => {
+    if (isNumeric) {
+        return (
+            <DataTable.Cell key={colIndex} numeric={col.numeric}>
+                {row[col.title]}
+            </DataTable.Cell>
+        )
+    } else {
+        <DataTable.Cell key={colIndex} numeric={col.numeric}>
+            {row[col.title]}
+        </DataTable.Cell>
+    }
+}
+
+const DynamicTable: React.FC<Props> = ({ columns, column_map, database, sql }) => {
+    const [rows, setRows] = useState<any[]>([])
+
+    const getRows = (tx: SQLite.SQLTransaction) => {
+        tx.executeSql(
+            sql,
+            [],
+            (_, { rows }) => { setRows(rows._array.reverse()) }
+        )
+    }
+
+    useEffect(() => { database.transaction(getRows) }, [])
 
     return (
         <View style={styles.container}>
@@ -36,11 +62,7 @@ export const DynamicTable: React.FC<Props> = ({ columns, rows, column_map }) => 
                         <TouchableOpacity
                             key={rowIndex}
                             // onPress={() => onPressItem && onPressItem(id)}
-                            style={{
-                                // backgroundColor: done ? "#1c9963" : "#fff",
-                                borderWidth: 0.5,
-
-                            }}
+                            style={{ borderWidth: 0.5 }}
                         >
                             <DataTable.Row key={rowIndex}>
                                 {columns.map((col, colIndex) => (
@@ -54,8 +76,8 @@ export const DynamicTable: React.FC<Props> = ({ columns, rows, column_map }) => 
                 </DataTable>
             </ScrollView>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -67,4 +89,6 @@ const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: "#f0f0f0",
     }
-});
+})
+
+export default DynamicTable

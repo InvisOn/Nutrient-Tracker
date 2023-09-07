@@ -1,40 +1,37 @@
-import { StyleSheet, Text } from 'react-native';
-import { View } from '@/components/Themed';
-import InputWithLabel from '@/components/InputWithLabel';
-import Button from '@/components/Button';
-import { useState, useEffect } from 'react';
-import { DynamicTable, Row } from '@/components/DynamicTable';
+import { StyleSheet, Text } from 'react-native'
+import { View } from '@/components/Themed'
+import InputWithLabel from '@/components/InputWithLabel'
+import Button from '@/components/Button'
+import { useState, useEffect } from 'react'
+import DynamicTable from '@/components/DynamicTable'
 import * as SQLite from "expo-sqlite"
 
-function createDatabase(): SQLite.Database {
+const createDatabase = (): SQLite.Database => {
     const db = SQLite.openDatabase("ingredients.db")
 
     return db
 }
 
-const db = createDatabase()
+const database = createDatabase()
 
-function useForceUpdate(): [number, () => void] {
+const useForceUpdate = (): [number, () => void] => {
     const [value, setValue] = useState(0)
     return [value, () => setValue(value + 1)]
 }
 
 const toNumberOrZero = (value: string | number) => {
-    const num = Number(value === '' ? 0 : value);
-    return Number.isNaN(num) ? 0 : num;
+    const num = Number(value === '' ? 0 : value)
+    return Number.isNaN(num) ? 0 : num
 }
 
 const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
 
-export default function IngredientsTab() {
+const IngredientsTab = () => {
     const [productName, setProductName] = useState<string | number>('')
     const [gram_protein, setProtein] = useState<string | number>('')
     const [gram_fat, setFat] = useState<string | number>('')
     const [gram_carbs, setCarbs] = useState<string | number>('')
     const [kj_energy, setEnergy] = useState<string | number>('')
-
-    // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
-    const [forceUpdateId, forceUpdate] = useForceUpdate()
 
     const createTable = (tx: SQLite.SQLTransaction) => {
         tx.executeSql("DROP TABLE IF EXISTS ingredients;"); // !! temporary, to prevent the db from ballooning in size when debugging.
@@ -43,26 +40,18 @@ export default function IngredientsTab() {
         )
 
         // !! temporary, to fill the table
-        for (let i = 1; i <= 20; i++) {
-            db.transaction(
-                (tx) => {
-                    tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
-                        `name ${i}`,
-                        i,
-                        i,
-                        i,
-                        i,])
-                    if (i === 20) {
-                        // tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
-                    }
-                },
-                (error) => console.log(error),
-                // forceUpdate
-            )
+        for (let i = 20; i >= 1; i--) {
+            tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
+                `Food ${i}23456789`,
+                i,
+                i,
+                i,
+                i
+            ])
         }
     }
 
-    useEffect(() => { db.transaction(createTable) }, [])
+    useEffect(() => { database.transaction(createTable) }, [])
 
     const calculateEnergyFromMacros = () => {
         const kcal_per_gram_protein = Number(gram_protein) * 4
@@ -76,6 +65,10 @@ export default function IngredientsTab() {
         return toNumberOrZero(Math.round(total_kj))
     }
 
+
+    // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
+    const [forceUpdateId, forceUpdate] = useForceUpdate()
+
     const handleAddIngredientPress = () => {
         if (productName === null || productName === "") {
             alert("Please type an ingredient name.")
@@ -83,8 +76,8 @@ export default function IngredientsTab() {
         }
 
         if (!isValidNumber(gram_protein) || !isValidNumber(gram_fat) || !isValidNumber(gram_carbs) || !isValidNumber(kj_energy)) {
-            alert('Please input only numbers for protein, fat, carbs, and energy.');
-            return false;
+            alert('Please input only numbers for protein, fat, carbs, and energy.')
+            return false
         }
 
         const gram_protein_number = toNumberOrZero(gram_protein)
@@ -92,7 +85,7 @@ export default function IngredientsTab() {
         const gram_carbs_number = toNumberOrZero(gram_carbs)
         const kj_energy_number = toNumberOrZero(kj_energy)
 
-        db.transaction(
+        database.transaction(
             (tx) => {
                 tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
                     productName,
@@ -101,10 +94,9 @@ export default function IngredientsTab() {
                     gram_carbs_number,
                     kj_energy_number,
                 ])
-                tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
             },
-            (error) => console.log(error),
-            // forceUpdate
+            undefined,
+            forceUpdate
         )
 
         setProductName('')
@@ -115,44 +107,22 @@ export default function IngredientsTab() {
     }
 
     const columns = [
-        { title: 'Name' },
-        { title: 'Protein', numeric: true },
-        { title: 'Fat', numeric: true },
-        { title: 'Carbs', numeric: true },
-        { title: 'Energy', numeric: true }
-    ];
+        { title: 'name' },
+        { title: 'protein', numeric: true },
+        { title: 'fat', numeric: true },
+        { title: 'carbs', numeric: true },
+        { title: 'energy', numeric: true }
+    ]
 
-    let column_map: { [key: string]: string } = {
-        'Name': "Name",
-        'Protein': "Protein (g)",
-        'Fat': "Fat (g)",
-        'Carbs': "Carbs (g)",
-        'Energy': "Energy (kJ)",
+    let column_header_map: { [key: string]: string } = {
+        'name': "Name",
+        'protein': "Protein (g)",
+        'fat': "Fat (g)",
+        'carbs': "Carbs (g)",
+        'energy': "Energy (kJ)",
     }
 
-    // !! temporary, to fill the table
-    const rows = [];
-    for (let i = 1; i <= 20; i++) {
-        rows.push({ key: i, Name: `Food ${i}`, Protein: i, Fat: i * 2, Carbs: i * 3, Energy: i * 4 });
-    }
-
-    const getIngredients = (tx: SQLite.SQLTransaction) => {
-        tx.executeSql("SELECT name, protein, fat, carbs, energy FROM ingredients", [], (_, { rows }) => {
-            const typedRows: Row[] = rows._array.map((row: any) => {
-                const newRow: Row = {};
-                Object.keys(row).forEach((key) => {
-                    newRow[key] = row[key];
-                });
-                return newRow;
-            })
-            console.log(JSON.stringify(typedRows), 'hi')
-            tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
-
-
-        })
-    }
-
-    useEffect(() => { db.transaction(getIngredients) }, [])
+    const getIngredientsSql = "SELECT name, protein, fat, carbs, energy FROM ingredients"
 
     return (
         <View style={{ flex: 1 }}>
@@ -203,10 +173,16 @@ export default function IngredientsTab() {
                 />
             </View>
             <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
-            <DynamicTable columns={columns} rows={rows} column_map={column_map} />
+            <DynamicTable
+                key={`forceupdate-todo-${forceUpdateId}`}
+                columns={columns}
+                column_map={column_header_map}
+                database={database}
+                sql={getIngredientsSql}
+            />
         </View>
     )
-};
+}
 
 const styles = StyleSheet.create({
     textMargin: {
@@ -224,4 +200,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     }
-});
+})
+
+export default IngredientsTab
