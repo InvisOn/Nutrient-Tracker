@@ -3,17 +3,21 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-nati
 import * as SQLite from "expo-sqlite"
 
 type TableProps = {
-    columns_header: string[],
+    columnsHeader: string[],
     flexColumn: { columnIndex: number, flex: number },
     numericCols: number[],
+    primaryKeyCol: number,
+    onPressRow: (id: number) => void,
     database: SQLite.Database,
     sql: string
 }
 
 const DynamicTable: React.FC<TableProps> = ({
-    columns_header,
+    columnsHeader,
     flexColumn = { columnIndex: 0, flex: 1 },
     numericCols,
+    primaryKeyCol,
+    onPressRow,
     database,
     sql }) => {
     const [rows, setRows] = useState<any[]>([])
@@ -26,9 +30,9 @@ const DynamicTable: React.FC<TableProps> = ({
         )
     }
 
-    const row_array: string[][] = []
+    const rowArray: string[][] = []
     for (let i = 0; i < rows.length; i++) {
-        row_array.push(Object.values(rows[i]))
+        rowArray.push(Object.values(rows[i]))
     }
 
     useEffect(() => { database.transaction(getRows) }, [])
@@ -36,11 +40,11 @@ const DynamicTable: React.FC<TableProps> = ({
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
-                {columns_header.map((value, headerIndex) => (
+                {columnsHeader.map((value, headerIndex) => (
                     <Text
                         key={headerIndex}
                         style={[
-                            styles.header_text,
+                            styles.headerText,
                             { textAlign: numericCols.includes(headerIndex) ? 'right' : 'left' },
                             { flex: headerIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
                         ]}>
@@ -48,18 +52,19 @@ const DynamicTable: React.FC<TableProps> = ({
                     </Text>
                 ))}
             </View>
-            <ScrollView style={styles.scroll_view}>
-                {row_array.map((row, rowIndex) => (
+            {/* todo perhaps have an option to disable `TouchableOpacity`? */}
+            <ScrollView style={styles.scrollView}>
+                {rowArray.map((row) => (
                     <TouchableOpacity
-                        key={rowIndex}
-                        // onPress={() => onPressItem && onPressItem(id)}
+                        key={Number(row[primaryKeyCol])}
+                        onPress={() => onPressRow(Number(row[primaryKeyCol]))}
                         style={{ borderWidth: 0.2 }}>
                         <View style={styles.rows}>
-                            {row.map((value, cellIndex) => (
+                            {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (
                                 <Text
                                     key={cellIndex}
                                     style={[
-                                        styles.row_text,
+                                        styles.rowText,
                                         { textAlign: numericCols.includes(cellIndex) ? 'right' : 'left' },
                                         { flex: cellIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
                                     ]}>
@@ -75,11 +80,11 @@ const DynamicTable: React.FC<TableProps> = ({
 }
 
 const styles = StyleSheet.create({
-    header_text: {
+    headerText: {
         fontSize: 11,
         fontWeight: 'bold'
     },
-    row_text: {
+    rowText: {
         fontSize: 11
     },
     header: {
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginTop: 8
     },
-    scroll_view: {
+    scrollView: {
         backgroundColor: "#f0f0f0",
         flex: 1
     }

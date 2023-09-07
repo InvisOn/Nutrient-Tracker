@@ -8,9 +8,9 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 export default function OverviewTab() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Tab Three</Text>
+            <Text style={styles.title}>Overview</Text>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-            <EditScreenInfo path="app/(tabs)/three.tsx" />
+            <EditScreenInfo path="app/(tabs)/index.tsx" />
         </View>
     );
 }

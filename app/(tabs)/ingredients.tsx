@@ -5,6 +5,8 @@ import Button from '@/components/Button'
 import { useState, useEffect } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import * as SQLite from "expo-sqlite"
+import { useRouter } from 'expo-router'
+import { toNumberOrZero } from '@/components/InputNutrients'
 
 const createDatabase = (): SQLite.Database => {
     const db = SQLite.openDatabase("ingredients.db")
@@ -17,11 +19,6 @@ const database = createDatabase()
 const useForceUpdate = (): [number, () => void] => {
     const [value, setValue] = useState(0)
     return [value, () => setValue(value + 1)]
-}
-
-const toNumberOrZero = (value: string | number) => {
-    const num = Number(value === '' ? 0 : value)
-    return Number.isNaN(num) ? 0 : num
 }
 
 const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
@@ -65,10 +62,9 @@ const IngredientsTab = () => {
         return toNumberOrZero(Math.round(total_kj))
     }
 
-
     // Is used to trigger a re-render of `<DynamicTable>` to reflect database changes.
+    // console.log(1) // bug why unneccessary the re-renders?
     const [forceUpdateId, forceUpdate] = useForceUpdate();
-
 
     const handleAddIngredientPress = () => {
         if (productName === null || productName === "") {
@@ -107,7 +103,12 @@ const IngredientsTab = () => {
         setEnergy('')
     }
 
-    const column_header = [
+    const handlePressRow = (row_id: number) => {
+        const router = useRouter()
+        router.push('/edit_ingredient_page')
+    }
+
+    const columnHeader = [
         'Ingredient',
         'Protein',
         'Fat',
@@ -116,11 +117,11 @@ const IngredientsTab = () => {
     ]
 
     const numericCols = [1, 2, 3, 4]
-
-    const getIngredientsSql = "SELECT name, protein, fat, carbs, energy FROM ingredients"
+    const primaryKeyCol = 0 // todo perhaps rename this to idRow?
+    const getIngredientsSql = "SELECT * FROM ingredients"
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={styles.container}>
             <View style={styles.textMargin}>
                 <Text>Add the ingredient name and nutrient content per 100g.</Text>
             </View>
@@ -170,9 +171,11 @@ const IngredientsTab = () => {
             <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
             <DynamicTable
                 key={`forceupdate-${forceUpdateId}`}
-                columns_header={column_header}
+                columnsHeader={columnHeader}
                 flexColumn={{ columnIndex: 0, flex: 4 }}
                 numericCols={numericCols}
+                primaryKeyCol={primaryKeyCol}
+                onPressRow={handlePressRow}
                 database={database}
                 sql={getIngredientsSql}
             />
@@ -181,6 +184,9 @@ const IngredientsTab = () => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
     textMargin: {
         marginLeft: 6,
         marginRight: 6,
