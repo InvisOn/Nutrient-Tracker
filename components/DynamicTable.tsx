@@ -1,4 +1,3 @@
-import Constants from 'expo-constants';
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
@@ -8,7 +7,7 @@ type Column = {
     numeric?: boolean
 };
 
-type Row = {
+export type Row = {
     [key: string]: string | number
 };
 
@@ -18,7 +17,7 @@ type Props = {
     column_map: { [key: string]: string },
 };
 
-const DynamicTable: React.FC<Props> = ({ columns, rows, column_map }) => {
+export const DynamicTable: React.FC<Props> = ({ columns, rows, column_map }) => {
 
     return (
         <View style={styles.container}>
@@ -69,5 +68,3 @@ const styles = StyleSheet.create({
         backgroundColor: "#f0f0f0",
     }
 });
-
-export default DynamicTable;

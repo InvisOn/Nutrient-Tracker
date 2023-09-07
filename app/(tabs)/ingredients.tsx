@@ -3,7 +3,7 @@ import { View } from '@/components/Themed';
 import InputWithLabel from '@/components/InputWithLabel';
 import Button from '@/components/Button';
 import { useState, useEffect } from 'react';
-import DynamicTable from '@/components/DynamicTable';
+import { DynamicTable, Row } from '@/components/DynamicTable';
 import * as SQLite from "expo-sqlite"
 
 function createDatabase(): SQLite.Database {
@@ -19,12 +19,19 @@ function useForceUpdate(): [number, () => void] {
     return [value, () => setValue(value + 1)]
 }
 
+const toNumberOrZero = (value: string | number) => {
+    const num = Number(value === '' ? 0 : value);
+    return Number.isNaN(num) ? 0 : num;
+}
+
+const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
+
 export default function IngredientsTab() {
     const [productName, setProductName] = useState<string | number>('')
     const [gram_protein, setProtein] = useState<string | number>('')
     const [gram_fat, setFat] = useState<string | number>('')
     const [gram_carbs, setCarbs] = useState<string | number>('')
-    const [energy, setEnergy] = useState<string | number>('')
+    const [kj_energy, setEnergy] = useState<string | number>('')
 
     // `forceUpdateId` is a state variable that changes every time `forceUpdate` is called. It's used as a key for the `<Items>` components to force them to re-render when the database changes. When `forceUpdate` is called, `forceUpdateId` changes, causing React to re-render components that depend on it. This is a way to manually trigger a re-render for functional components in React.
     const [forceUpdateId, forceUpdate] = useForceUpdate()
@@ -45,7 +52,9 @@ export default function IngredientsTab() {
                         i,
                         i,
                         i,])
-                    // tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
+                    if (i === 20) {
+                        // tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
+                    }
                 },
                 (error) => console.log(error),
                 // forceUpdate
@@ -64,7 +73,7 @@ export default function IngredientsTab() {
 
         const total_kj = (kcal_per_gram_protein + kcal_per_gram_fat + kcal_per_gram_carbs) * kj_per_kcal
 
-        return Math.round(total_kj)
+        return toNumberOrZero(Math.round(total_kj))
     }
 
     const handleAddIngredientPress = () => {
@@ -73,21 +82,24 @@ export default function IngredientsTab() {
             return false
         }
 
-        const allNumbers = [gram_protein, gram_fat, gram_carbs, energy].every(i => typeof i === 'number')
-
-        if (!allNumbers) {
-            alert('Please input only numbers for protein, fat, carbs, and energy.')
-            return false
+        if (!isValidNumber(gram_protein) || !isValidNumber(gram_fat) || !isValidNumber(gram_carbs) || !isValidNumber(kj_energy)) {
+            alert('Please input only numbers for protein, fat, carbs, and energy.');
+            return false;
         }
+
+        const gram_protein_number = toNumberOrZero(gram_protein)
+        const gram_fat_number = toNumberOrZero(gram_fat)
+        const gram_carbs_number = toNumberOrZero(gram_carbs)
+        const kj_energy_number = toNumberOrZero(kj_energy)
 
         db.transaction(
             (tx) => {
                 tx.executeSql("INSERT INTO ingredients (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
                     productName,
-                    gram_protein === '' ? 0 : gram_protein,
-                    gram_fat === '' ? 0 : gram_fat,
-                    gram_carbs === '' ? 0 : gram_carbs,
-                    energy === '' ? calculateEnergyFromMacros() : '',
+                    gram_protein_number,
+                    gram_fat_number,
+                    gram_carbs_number,
+                    kj_energy_number,
                 ])
                 tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
             },
@@ -118,29 +130,29 @@ export default function IngredientsTab() {
         'Energy': "Energy (kJ)",
     }
 
-    // todo update table with stuff fom db in the ui
-    // shoud be below type:
-    // type Row = {
-    //     [key: string]: string | number
-    // };
-    // try this:
-    // tx.executeSql("SELECT name, protein, fat, carbs, energy FROM ingredients", [], (_, { rows }) => {
-    //     const typedRows: Row[] = rows._array.map((row: any) => {
-    //       const newRow: Row = {};
-    //       Object.keys(row).forEach((key) => {
-    //         newRow[key] = row[key];
-    //       });
-    //       return newRow;
-    //     });
-    //     console.log(JSON.stringify(typedRows));
-    //   });
-    // todo also figure out how to forceupdate the table in the ui
-
     // !! temporary, to fill the table
     const rows = [];
     for (let i = 1; i <= 20; i++) {
         rows.push({ key: i, Name: `Food ${i}`, Protein: i, Fat: i * 2, Carbs: i * 3, Energy: i * 4 });
     }
+
+    const getIngredients = (tx: SQLite.SQLTransaction) => {
+        tx.executeSql("SELECT name, protein, fat, carbs, energy FROM ingredients", [], (_, { rows }) => {
+            const typedRows: Row[] = rows._array.map((row: any) => {
+                const newRow: Row = {};
+                Object.keys(row).forEach((key) => {
+                    newRow[key] = row[key];
+                });
+                return newRow;
+            })
+            console.log(JSON.stringify(typedRows), 'hi')
+            tx.executeSql("SELECT * FROM ingredients", [], (_, { rows }) => console.log(JSON.stringify(rows)))
+
+
+        })
+    }
+
+    useEffect(() => { db.transaction(getIngredients) }, [])
 
     return (
         <View style={{ flex: 1 }}>
@@ -187,7 +199,7 @@ export default function IngredientsTab() {
                     flex={1}
                     placeholder={String(calculateEnergyFromMacros())}
                     onChangeText={(calories: string | number) => setEnergy(calories)}
-                    value={String(energy)}
+                    value={String(kj_energy)}
                 />
             </View>
             <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
