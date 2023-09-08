@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import * as SQLite from "expo-sqlite"
 import { useRouter } from 'expo-router'
-import { toNumberOrZero } from '@/components/InputNutrients'
+import { toNumberOrZero, InputIngredients } from '@/components/InputNutrients'
 
 const createDatabase = (): SQLite.Database => {
     const db = SQLite.openDatabase("ingredients.db")
@@ -117,60 +117,27 @@ const IngredientsTab = () => {
     ]
 
     const numericCols = [1, 2, 3, 4]
-    const primaryKeyCol = 0 // todo perhaps rename this to idRow?
+    const primaryKeyCol = 0
     const getIngredientsSql = "SELECT * FROM ingredients"
 
     return (
         <View style={styles.container}>
-            <View style={styles.textMargin}>
-                <Text>Add the ingredient name and nutrient content per 100g.</Text>
-            </View>
-            <InputWithLabel
-                label='Name:'
-                inputMode='text'
-                flex={0}
-                placeholder=''
-                onChangeText={(name: string | number) => setProductName(name)}
-                value={String(productName)}
+            <InputIngredients
+                valueProductName={String(productName)}
+                valueGramProtein={String(gram_protein)}
+                valueGramFat={String(gram_fat)}
+                valueGramCarbs={String(gram_carbs)}
+                valueKjEnergy={String(kj_energy)}
+                onChangeTextProductName={setProductName}
+                onChangeTextGramProtein={setProtein}
+                onChangeTextGramFat={setFat}
+                onChangeTextGramCarbs={setCarbs}
+                onChangeTextKjEnergy={setEnergy}
+                buttonLabel={'ADD INGREDIENT'}
+                onButtonPress={handleAddIngredientPress}
             />
-            <View style={styles.containerMacros}>
-                <InputWithLabel
-                    label='Protein (g):'
-                    inputMode='numeric'
-                    flex={1}
-                    placeholder='0'
-                    onChangeText={(protein: string | number) => setProtein(protein)}
-                    value={String(gram_protein)}
-                />
-                <InputWithLabel
-                    label='Fat (g):'
-                    inputMode='numeric'
-                    flex={1}
-                    placeholder='0'
-                    onChangeText={(fat: string | number) => setFat(fat)}
-                    value={String(gram_fat)}
-                />
-                <InputWithLabel
-                    label='Carbs (g):'
-                    inputMode='numeric'
-                    flex={1}
-                    placeholder='0'
-                    onChangeText={(carbs: string | number) => setCarbs(carbs)}
-                    value={String(gram_carbs)}
-                />
-                <InputWithLabel  // todo add toggle to switch from calls to kJ input
-                    // todo calculates this value as a placeholder from macros
-                    label='Energy (kJ):'
-                    inputMode='numeric'
-                    flex={1}
-                    placeholder={String(calculateEnergyFromMacros())}
-                    onChangeText={(calories: string | number) => setEnergy(calories)}
-                    value={String(kj_energy)}
-                />
-            </View>
-            <Button label='ADD INGREDIENT' onPress={handleAddIngredientPress} />
             <DynamicTable
-                key={`forceupdate-${forceUpdateId}`}
+                key={`forceUpdateId-${forceUpdateId}`}
                 columnsHeader={columnHeader}
                 flexColumn={{ columnIndex: 0, flex: 4 }}
                 numericCols={numericCols}

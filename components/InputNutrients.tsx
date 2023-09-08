@@ -9,11 +9,11 @@ export const toNumberOrZero = (value: string | number) => {
 }
 
 type TableProps = {
-    productName: string | number,
-    gramProtein: string | number,
-    gramFat: string | number,
-    gramCarbs: string | number,
-    kjEnergy: string | number,
+    valueProductName: string | number,
+    valueGramProtein: string | number,
+    valueGramFat: string | number,
+    valueGramCarbs: string | number,
+    valueKjEnergy: string | number,
     onChangeTextProductName: (name: string | number) => void,
     onChangeTextGramProtein: (name: string | number) => void,
     onChangeTextGramFat: (name: string | number) => void,
@@ -23,12 +23,12 @@ type TableProps = {
     onButtonPress: (name: string | number) => void
 }
 
-const InputIngredients: React.FC<TableProps> = ({
-    productName,
-    gramProtein,
-    gramFat,
-    gramCarbs,
-    kjEnergy,
+export const InputIngredients: React.FC<TableProps> = ({
+    valueProductName,
+    valueGramProtein,
+    valueGramFat,
+    valueGramCarbs,
+    valueKjEnergy,
     onChangeTextProductName,
     onChangeTextGramProtein,
     onChangeTextGramFat,
@@ -38,9 +38,9 @@ const InputIngredients: React.FC<TableProps> = ({
     onButtonPress
 }) => {
     const calculateEnergyFromMacros = () => {
-        const kcalPerGramProtein = Number(gramProtein) * 4
-        const kcalPerGramFat = Number(gramFat) * 9
-        const kcalPerGramCarbs = Number(gramCarbs) * 4
+        const kcalPerGramProtein = Number(valueGramProtein) * 4
+        const kcalPerGramFat = Number(valueGramFat) * 9
+        const kcalPerGramCarbs = Number(valueGramCarbs) * 4
 
         const kjPerKcal = 4.184
 
@@ -50,7 +50,7 @@ const InputIngredients: React.FC<TableProps> = ({
     }
 
     return (
-        <View style={styles.container}>
+        <View>
             <View style={styles.textMargin}>
                 <Text>Add the ingredient name and nutrient content per 100g.</Text>
             </View>
@@ -58,9 +58,9 @@ const InputIngredients: React.FC<TableProps> = ({
                 label='Name:'
                 inputMode='text'
                 flex={0}
-                placeholder=''
+                placeholder='type name here'
                 onChangeText={onChangeTextProductName}
-                value={String(productName)}
+                value={String(valueProductName)}
             />
             <View style={styles.containerMacros}>
                 <InputWithLabel
@@ -69,7 +69,7 @@ const InputIngredients: React.FC<TableProps> = ({
                     flex={1}
                     placeholder='0'
                     onChangeText={onChangeTextGramProtein}
-                    value={String(gramProtein)}
+                    value={String(valueGramProtein)}
                 />
                 <InputWithLabel
                     label='Fat (g):'
@@ -77,7 +77,7 @@ const InputIngredients: React.FC<TableProps> = ({
                     flex={1}
                     placeholder='0'
                     onChangeText={onChangeTextGramFat}
-                    value={String(gramFat)}
+                    value={String(valueGramFat)}
                 />
                 <InputWithLabel
                     label='Carbs (g):'
@@ -85,7 +85,7 @@ const InputIngredients: React.FC<TableProps> = ({
                     flex={1}
                     placeholder='0'
                     onChangeText={onChangeTextGramCarbs}
-                    value={String(gramCarbs)}
+                    value={String(valueGramCarbs)}
                 />
                 <InputWithLabel  // todo add toggle to switch from calls to kJ input
                     // todo calculates this value as a placeholder from macros
@@ -94,7 +94,7 @@ const InputIngredients: React.FC<TableProps> = ({
                     flex={1}
                     placeholder={String(calculateEnergyFromMacros())}
                     onChangeText={onChangeTextKjEnergy}
-                    value={String(kjEnergy)}
+                    value={String(valueKjEnergy)}
                 />
             </View>
             <Button label={buttonLabel} onPress={onButtonPress} />
@@ -122,5 +122,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     }
 })
-
-export default InputIngredients
