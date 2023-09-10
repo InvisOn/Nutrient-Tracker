@@ -1,35 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet } from 'react-native';
+import { View } from '@/components/Themed';
+import { InputIngredients } from '@/components/InputNutrients';
+import { useState } from 'react';
 
 export default function EditIngredientPage() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Edit Ingredients</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/editIngredientPage.tsx" />
+    const [productName, setProductName] = useState<string | number>('')
+    const [gramProtein, setProtein] = useState<string | number>('')
+    const [gramFat, setFat] = useState<string | number>('')
+    const [gramCarbs, setCarbs] = useState<string | number>('')
+    const [kjEnergy, setEnergy] = useState<string | number>('')
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-    </View>
-  );
+    const editIngredient = () => {
+
+    }
+
+    return (
+        <View style={styles.container}>
+            <InputIngredients
+                valueProductName={String(productName)}
+                valueGramProtein={String(gramProtein)}
+                valueGramFat={String(gramFat)}
+                valueGramCarbs={String(gramCarbs)}
+                valueKjEnergy={String(kjEnergy)}
+                onChangeTextProductName={setProductName}
+                onChangeTextGramProtein={setProtein}
+                onChangeTextGramFat={setFat}
+                onChangeTextGramCarbs={setCarbs}
+                onChangeTextKjEnergy={setEnergy}
+                buttonLabel={'EDIT INGREDIENT'}
+                onButtonPress={editIngredient}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    container: {
+        flex: 1,
+        paddingTop: 10
+    }
 });

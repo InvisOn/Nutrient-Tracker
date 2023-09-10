@@ -1,7 +1,5 @@
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { View } from '@/components/Themed'
-import InputWithLabel from '@/components/InputWithLabel'
-import Button from '@/components/Button'
 import { useState, useEffect } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import * as SQLite from "expo-sqlite"
@@ -25,10 +23,10 @@ const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
 
 const IngredientsTab = () => {
     const [productName, setProductName] = useState<string | number>('')
-    const [gram_protein, setProtein] = useState<string | number>('')
-    const [gram_fat, setFat] = useState<string | number>('')
-    const [gram_carbs, setCarbs] = useState<string | number>('')
-    const [kj_energy, setEnergy] = useState<string | number>('')
+    const [gramProtein, setProtein] = useState<string | number>('')
+    const [gramFat, setFat] = useState<string | number>('')
+    const [gramCarbs, setCarbs] = useState<string | number>('')
+    const [kjEnergy, setEnergy] = useState<string | number>('')
 
     const createTable = (tx: SQLite.SQLTransaction) => {
         tx.executeSql("DROP TABLE IF EXISTS ingredients;"); // !! temporary, to prevent the db from ballooning in size when debugging.
@@ -50,20 +48,8 @@ const IngredientsTab = () => {
 
     useEffect(() => { database.transaction(createTable) }, [])
 
-    const calculateEnergyFromMacros = () => {
-        const kcal_per_gram_protein = Number(gram_protein) * 4
-        const kcal_per_gram_fat = Number(gram_fat) * 9
-        const kcal_per_gram_carbs = Number(gram_carbs) * 4
-
-        const kj_per_kcal = 4.184
-
-        const total_kj = (kcal_per_gram_protein + kcal_per_gram_fat + kcal_per_gram_carbs) * kj_per_kcal
-
-        return toNumberOrZero(Math.round(total_kj))
-    }
-
     // Is used to trigger a re-render of `<DynamicTable>` to reflect database changes.
-    // console.log(1) // bug why unneccessary the re-renders?
+    // console.log(1) // bug The table renders twice when it is updated.
     const [forceUpdateId, forceUpdate] = useForceUpdate();
 
     const handleAddIngredientPress = () => {
@@ -72,15 +58,15 @@ const IngredientsTab = () => {
             return false
         }
 
-        if (!isValidNumber(gram_protein) || !isValidNumber(gram_fat) || !isValidNumber(gram_carbs) || !isValidNumber(kj_energy)) {
+        if (!isValidNumber(gramProtein) || !isValidNumber(gramFat) || !isValidNumber(gramCarbs) || !isValidNumber(kjEnergy)) {
             alert('Please input only numbers for protein, fat, carbs, and energy.')
             return false
         }
 
-        const gram_protein_number = toNumberOrZero(gram_protein)
-        const gram_fat_number = toNumberOrZero(gram_fat)
-        const gram_carbs_number = toNumberOrZero(gram_carbs)
-        const kj_energy_number = toNumberOrZero(kj_energy)
+        const gram_protein_number = toNumberOrZero(gramProtein)
+        const gram_fat_number = toNumberOrZero(gramFat)
+        const gram_carbs_number = toNumberOrZero(gramCarbs)
+        const kj_energy_number = toNumberOrZero(kjEnergy)
 
         database.transaction(
             (tx) => {
@@ -124,10 +110,10 @@ const IngredientsTab = () => {
         <View style={styles.container}>
             <InputIngredients
                 valueProductName={String(productName)}
-                valueGramProtein={String(gram_protein)}
-                valueGramFat={String(gram_fat)}
-                valueGramCarbs={String(gram_carbs)}
-                valueKjEnergy={String(kj_energy)}
+                valueGramProtein={String(gramProtein)}
+                valueGramFat={String(gramFat)}
+                valueGramCarbs={String(gramCarbs)}
+                valueKjEnergy={String(kjEnergy)}
                 onChangeTextProductName={setProductName}
                 onChangeTextGramProtein={setProtein}
                 onChangeTextGramFat={setFat}

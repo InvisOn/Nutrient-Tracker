@@ -20,7 +20,7 @@ type TableProps = {
     onChangeTextGramCarbs: (name: string | number) => void,
     onChangeTextKjEnergy: (name: string | number) => void,
     buttonLabel: string,
-    onButtonPress: (name: string | number) => void
+    onButtonPress: () => void
 }
 
 export const InputIngredients: React.FC<TableProps> = ({
