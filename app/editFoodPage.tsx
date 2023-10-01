@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { View } from '@/components/Themed';
-import { InputIngredients } from '@/components/InputNutrients';
+import { InputFood } from '@/components/InputFood';
 import { useLocalSearchParams } from 'expo-router';
 import consoleLogClock from '@/debug_utils';
 
@@ -10,7 +10,7 @@ const EditFoodPage: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <InputIngredients
+            <InputFood
                 valueProductName={String(params.productName)}
                 valueGramProtein={String(params.gramProtein)}
                 valueGramFat={String(params.gramFat)}

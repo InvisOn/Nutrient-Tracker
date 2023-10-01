@@ -23,7 +23,7 @@ type TableProps = {
     onButtonPress: () => void
 }
 
-export const InputIngredients: React.FC<TableProps> = ({
+export const InputFood: React.FC<TableProps> = ({
     valueProductName,
     valueGramProtein,
     valueGramFat,

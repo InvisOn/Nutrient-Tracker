@@ -3,7 +3,7 @@ import { View } from '@/components/Themed'
 import { useState, useEffect } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import * as SQLite from "expo-sqlite"
-import { toNumberOrZero, InputIngredients } from '@/components/InputNutrients'
+import { toNumberOrZero, InputFood } from '@/components/InputFood'
 import consoleLogClock from '@/debug_utils';
 import { useRouter } from 'expo-router'
 
@@ -20,7 +20,6 @@ const useForceUpdate = (): [number, () => void] => {
     return [value, () => setValue(value + 1)]
 }
 
-const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
 
 const FoodTab = () => {
     const [productName, setProductName] = useState<string | number>('')
@@ -59,6 +58,8 @@ const FoodTab = () => {
             alert("Please type an ingredient name.")
             return false
         }
+
+        const isValidNumber = (value: string | number) => !Number.isNaN(Number(value))
 
         if (!isValidNumber(gramProtein) || !isValidNumber(gramFat) || !isValidNumber(gramCarbs) || !isValidNumber(kjEnergy)) {
             alert('Please input only numbers for protein, fat, carbs, and energy.')
@@ -176,7 +177,7 @@ const FoodTab = () => {
 
     return (
         <View style={styles.container}>
-            <InputIngredients
+            <InputFood
                 valueProductName={String(productName)}
                 valueGramProtein={String(gramProtein)}
                 valueGramFat={String(gramFat)}
@@ -187,7 +188,7 @@ const FoodTab = () => {
                 onChangeTextGramFat={setFat}
                 onChangeTextGramCarbs={setCarbs}
                 onChangeTextKjEnergy={setEnergy}
-                buttonLabel={'ADD INGREDIENT'}
+                buttonLabel={'ADD FOOD'}
                 onButtonPress={handleButtonPress}
             />
             <DynamicTable
