@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native'
-import * as SQLite from "expo-sqlite"
+import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
 
 type TableProps = {
     columnsHeader: string[],
@@ -8,8 +6,7 @@ type TableProps = {
     numericCols: number[],
     primaryKeyCol: number,
     onPressRow: (id: number) => void,
-    database: SQLite.Database,
-    sql: string
+    rowArray: string[][]
 }
 
 const DynamicTable: React.FC<TableProps> = ({
@@ -18,25 +15,8 @@ const DynamicTable: React.FC<TableProps> = ({
     numericCols,
     primaryKeyCol,
     onPressRow,
-    database,
-    sql }) => {
-    const [rows, setRows] = useState<any[]>([])
-
-    const getRows = (tx: SQLite.SQLTransaction) => {
-        tx.executeSql(
-            sql,
-            [],
-            (_, { rows }) => { setRows(rows._array.reverse()) }
-        )
-    }
-
-    const rowArray: string[][] = []
-    for (let i = 0; i < rows.length; i++) {
-        rowArray.push(Object.values(rows[i]))
-    }
-
-    useEffect(() => { database.transaction(getRows) }, [])
-
+    rowArray
+}) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
@@ -52,10 +32,9 @@ const DynamicTable: React.FC<TableProps> = ({
                     </Text>
                 ))}
             </View>
-            {/* todo perhaps have an option to disable `TouchableOpacity`? */}
             <ScrollView style={styles.scrollView}>
                 {rowArray.map((row) => (
-                    <TouchableOpacity
+                    <Pressable
                         key={Number(row[primaryKeyCol])}
                         onPress={() => onPressRow(Number(row[primaryKeyCol]))}
                         style={{ borderWidth: 0.2 }}>
@@ -72,7 +51,7 @@ const DynamicTable: React.FC<TableProps> = ({
                                 </Text>
                             ))}
                         </View>
-                    </TouchableOpacity>
+                    </Pressable>
                 ))}
             </ScrollView>
         </View>

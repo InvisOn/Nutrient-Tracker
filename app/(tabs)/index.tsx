@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import React from 'react';
 
-import InputWithLabel from '@/components/InputWithLabel';
 import { Text, View } from '@/components/Themed';
 import EditScreenInfo from '@/components/EditScreenInfo';
 
+// todo allow adding a new ingredient / food / meal that the user has consumed.
 export default function OverviewTab() {
     return (
         <View style={styles.container}>
