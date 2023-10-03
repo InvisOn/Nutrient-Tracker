@@ -20,7 +20,6 @@ const useForceUpdate = (): [number, () => void] => {
     return [value, () => setValue(value + 1)]
 }
 
-
 const FoodTab = () => {
     const [productName, setProductName] = useState<string | number>('')
     const [gramProtein, setProtein] = useState<string | number>('')
@@ -36,7 +35,8 @@ const FoodTab = () => {
         )
 
         // !! temporary, to fill the table
-        for (let i = 20; i >= 1; i--) {
+        for (let i = 1; i <= 20; i++) {
+            consoleLogClock(i)
             tx.executeSql("INSERT INTO foods (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?)", [
                 `Food ${i}`,
                 i * 10,
@@ -49,9 +49,7 @@ const FoodTab = () => {
 
     useEffect(() => { database.transaction(createTable) }, [])
 
-    // Is used to trigger a re-render of `<DynamicTable>` to reflect database changes.
-    // console.log(1) // bug The table renders twice when it is updated.
-    const [forceUpdateId, forceUpdate] = useForceUpdate();
+    const [forceUpdateId, forceUpdate] = useForceUpdate()
 
     const handleButtonPress = () => {
         if (productName === null || productName === "") {
@@ -94,40 +92,17 @@ const FoodTab = () => {
 
     const handlePressRow = (rowId: number) => {
         // get row with row_id from database
-        // set states to values from row
-        // pass to route
-        // pass  set functions to route
-        // on edit page update them with set with updated values
-        // in this function update the database
+        // pass rowId to route
+        // get row in page component and update it there too
 
         // todo https://stackoverflow.com/questions/35537229/how-can-i-update-the-parents-state-in-react
         // todo maybe modal is a good option? https://docs.expo.dev/router/advanced/modals/
         // todo find template again that I made this app from to look at how they did the modal thingy
 
-        // database.transaction(
-        //     (tx: SQLite.SQLTransaction) => {
-        //         tx.executeSql("SELECT * FROM foods WHERE id = ?", [rowId], (_, { rows }) => {
-        //              https://docs.expo.dev/routing/navigating-pages/
-        //             useRouter().push({
-        //                 pathname: '/editFoodPage',
-        //                 params: {
-        //                     productName: rows._array[0]["name"],
-        //                     gramProtein: rows._array[0]["protein"],
-        //                     gramFat: rows._array[0]["fat"],
-        //                     gramCarbs: rows._array[0]["carbs"],
-        //                     kjEnergy: rows._array[0]["energy"],
-        //                     setProductName: setProductName,
-        //                     setProtein: setProtein,
-        //                     setFat: setFat,
-        //                     setCarbs: setCarbs,
-        //                     setEnergy: setEnergy,
-        //                     handleButtonPress: handleButtonPress
-        //                 }
-        //             })
-        //         }
-        //         )
-        //     }
-        // )
+        useRouter().push({
+            pathname: '/editFoodPage',
+            params: { rowId: rowId }
+        })
 
         // todo what is good practice for passing parameters to components?
         // what I am doing now seems to be an anti pattern.
@@ -143,14 +118,6 @@ const FoodTab = () => {
         // https://reactnavigation.org/docs/params/#what-should-be-in-params
     }
 
-    const columnHeader = [
-        'Ingredient',
-        'Protein',
-        'Fat',
-        'Carbs',
-        'Energy'
-    ]
-
     const [rowArray, setRowArray] = useState<string[][]>([])
 
     const getRows = (tx: SQLite.SQLTransaction) => {
@@ -158,11 +125,11 @@ const FoodTab = () => {
             "SELECT * FROM foods",
             [],
             (_, { rows }) => {
-                let rows_reversed = rows._array.reverse()
+                let rows_ = rows._array
 
                 let rowArray: string[][] = []
-                for (let i = 0; i < rows_reversed.length; i++) {
-                    rowArray.push(Object.values(rows_reversed[i]))
+                for (let i = 0; i < rows_.length; i++) {
+                    rowArray.push(Object.values(rows_[i]))
                 }
 
                 setRowArray(rowArray)
@@ -174,6 +141,13 @@ const FoodTab = () => {
 
     const numericCols = [1, 2, 3, 4]
     const primaryKeyCol = 0
+    const columnHeader = [
+        'Ingredient',
+        'Protein',
+        'Fat',
+        'Carbs',
+        'Energy'
+    ]
 
     return (
         <View style={styles.container}>

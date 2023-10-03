@@ -6,7 +6,9 @@ import consoleLogClock from '@/debug_utils';
 
 
 const EditFoodPage: React.FC = () => {
-    const params = useLocalSearchParams();
+    const params = useLocalSearchParams()
+
+    consoleLogClock(params.rowId)
 
     return (
         <View style={styles.container}>
@@ -25,7 +27,7 @@ const EditFoodPage: React.FC = () => {
                 onButtonPress={() => consoleLogClock("onButtonPress")}
             />
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -33,6 +35,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 10
     }
-});
+})
 
 export default EditFoodPage
