@@ -1,4 +1,3 @@
-import consoleLogClock from '@/debug_utils'
 import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
 
 type TableProps = {
@@ -18,7 +17,6 @@ const DynamicTable: React.FC<TableProps> = ({
     onPressRow,
     rowArray
 }) => {
-    consoleLogClock("DynamicTable")
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>

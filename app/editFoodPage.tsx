@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native';
-import { View } from '@/components/Themed';
-import { InputFood } from '@/components/InputFood';
-import { useLocalSearchParams } from 'expo-router';
-import consoleLogClock from '@/debug_utils';
+import { StyleSheet } from 'react-native'
+import { View } from '@/components/Themed'
+import { InputFood } from '@/components/InputFood'
+import { useLocalSearchParams } from 'expo-router'
+import consoleLogClock from '@/utils/debug'
 
-
+// ? should I addd this page to app/_layout.tsx?
 const EditFoodPage: React.FC = () => {
     const params = useLocalSearchParams()
 
-    consoleLogClock(params.rowId)
+    consoleLogClock("rowID " + params.rowId)
 
     return (
         <View style={styles.container}>
@@ -24,7 +24,7 @@ const EditFoodPage: React.FC = () => {
                 onChangeTextGramCarbs={(x) => consoleLogClock("onChangeTextGramCarbs" + x)}
                 onChangeTextKjEnergy={(x) => consoleLogClock("onChangeTextKjEnergy" + x)}
                 buttonLabel={'EDIT INGREDIENT'}
-                onButtonPress={() => consoleLogClock("onButtonPress")}
+                onButtonPress={() => consoleLogClock("onButtonPress editFoodPage")}
             />
         </View>
     )

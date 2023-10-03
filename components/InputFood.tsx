@@ -9,12 +9,12 @@ export const toNumberOrZero = (value: string | number) => {
 }
 
 type TableProps = {
-    valueProductName: string | number,
+    valueProductName: string,
     valueGramProtein: string | number,
     valueGramFat: string | number,
     valueGramCarbs: string | number,
     valueKjEnergy: string | number,
-    onChangeTextProductName: (name: string | number) => void,
+    onChangeTextProductName: (name: string) => void,
     onChangeTextGramProtein: (name: string | number) => void,
     onChangeTextGramFat: (name: string | number) => void,
     onChangeTextGramCarbs: (name: string | number) => void,
