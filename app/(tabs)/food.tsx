@@ -3,16 +3,20 @@ import { View } from '@/components/Themed'
 import { useState, useEffect, useContext, useCallback } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import { SQLTransaction } from "expo-sqlite"
-import { toNumberOrZero, InputFood } from '@/components/InputFood'
+import { InputFood } from '@/components/InputFood'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
 import { useForceUpdate } from '@/utils/forceUpdate'
+import { calculateKjFromMacros, toNumber } from '@/utils/food'
+import consoleLogClock from '@/utils/debug'
 
 const FoodTab = () => {
     const database = useContext(DatabaseContext)
 
     const [productName, setProductName] = useState<string>('')
+
+    // <string | number> to simplify placeholder value logic.
     const [gramProtein, setProtein] = useState<string | number>('')
     const [gramFat, setFat] = useState<string | number>('')
     const [gramCarbs, setCarbs] = useState<string | number>('')
@@ -26,17 +30,17 @@ const FoodTab = () => {
             return false
         }
 
-        const isValidNumber = (value: string | number) => !Number.isNaN(Number(value) && Number(value) <= 0)
+        const isReal = (value: string | number) => !Number.isNaN(Number(value) && Number(value) <= 0)
 
-        if (!isValidNumber(gramProtein) || !isValidNumber(gramFat) || !isValidNumber(gramCarbs) || !isValidNumber(kjEnergy)) {
+        if (!isReal(gramProtein) || !isReal(gramFat) || !isReal(gramCarbs) || !isReal(kjEnergy)) {
             alert('Please input only numbers for protein, fat, carbs, and energy.')
             return false
         }
 
-        const gramProteinNumber = toNumberOrZero(gramProtein)
-        const gramFatNumber = toNumberOrZero(gramFat)
-        const gramCarbsNumber = toNumberOrZero(gramCarbs)
-        const kjEnergyNumber = toNumberOrZero(kjEnergy)
+        const gramProteinNumber = toNumber(gramProtein)
+        const gramFatNumber = toNumber(gramFat)
+        const gramCarbsNumber = toNumber(gramCarbs)
+        const kjEnergyNumber = toNumber(kjEnergy) === 0 ? calculateKjFromMacros(gramProteinNumber, gramFatNumber, gramCarbsNumber) : toNumber(kjEnergy)
 
         database.transaction(
             (tx: SQLTransaction) => {
@@ -101,11 +105,11 @@ const FoodTab = () => {
     return (
         <View style={styles.container}>
             <InputFood
-                valueProductName={String(productName)}
-                valueGramProtein={String(gramProtein)}
-                valueGramFat={String(gramFat)}
-                valueGramCarbs={String(gramCarbs)}
-                valueKjEnergy={String(kjEnergy)}
+                valueProductName={productName}
+                valueGramProtein={gramProtein}
+                valueGramFat={gramFat}
+                valueGramCarbs={gramCarbs}
+                valueKjEnergy={kjEnergy}
                 onChangeTextProductName={setProductName}
                 onChangeTextGramProtein={setProtein}
                 onChangeTextGramFat={setFat}
@@ -115,7 +119,7 @@ const FoodTab = () => {
                 onButtonPress={handleButtonPress}
             />
             <DynamicTable
-                key={`forceUpdateId-${forceUpdateId}`}
+                key={forceUpdateId}
                 columnsHeader={columnHeader}
                 flexColumn={{ columnIndex: 0, flex: 4 }}
                 numericCols={numericCols}

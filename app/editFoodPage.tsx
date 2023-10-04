@@ -17,7 +17,7 @@ const EditFoodPage: React.FC = () => {
     const [gramProtein, setProtein] = useState<string | number>('')
     const [gramFat, setFat] = useState<string | number>('')
     const [gramCarbs, setCarbs] = useState<string | number>('')
-    const [kjEnergy, setEnergy] = useState<string | number>('')
+    const [kjEnergy, setKjEnergy] = useState<string | number>('')
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
@@ -30,7 +30,7 @@ const EditFoodPage: React.FC = () => {
                 setProtein(row["protein"])
                 setFat(row["fat"])
                 setCarbs(row["carbs"])
-                setEnergy(row["energy"])
+                setKjEnergy(row["energy"])
             }
         )
     }
@@ -68,15 +68,15 @@ const EditFoodPage: React.FC = () => {
             <Stack.Screen options={{ title: "Edit Food" }} />
             <InputFood
                 valueProductName={productName}
-                valueGramProtein={String(gramProtein)}
-                valueGramFat={String(gramFat)}
-                valueGramCarbs={String(gramCarbs)}
-                valueKjEnergy={String(kjEnergy)}
+                valueGramProtein={gramProtein}
+                valueGramFat={gramFat}
+                valueGramCarbs={gramCarbs}
+                valueKjEnergy={kjEnergy}
                 onChangeTextProductName={setProductName}
                 onChangeTextGramProtein={setProtein}
                 onChangeTextGramFat={setFat}
                 onChangeTextGramCarbs={setCarbs}
-                onChangeTextKjEnergy={setEnergy}
+                onChangeTextKjEnergy={setKjEnergy}
                 buttonLabel={'EDIT INGREDIENT'}
                 onButtonPress={onEditButtonPress}
             />

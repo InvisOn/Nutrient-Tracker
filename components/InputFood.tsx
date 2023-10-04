@@ -2,11 +2,7 @@ import { StyleSheet, Text } from 'react-native'
 import { View } from '@/components/Themed'
 import InputWithLabel from '@/components/InputWithLabel'
 import Button from '@/components/Button'
-
-export const toNumberOrZero = (value: string | number) => {
-    const num = Number(value === '' ? 0 : value)
-    return Number.isNaN(num) ? 0 : num
-}
+import { calculateKjFromMacros, toNumber } from '@/utils/food'
 
 type TableProps = {
     valueProductName: string,
@@ -37,16 +33,10 @@ export const InputFood: React.FC<TableProps> = ({
     buttonLabel,
     onButtonPress
 }) => {
-    const calculateEnergyFromMacros = () => {
-        const kcalPerGramProtein = Number(valueGramProtein) * 4
-        const kcalPerGramFat = Number(valueGramFat) * 9
-        const kcalPerGramCarbs = Number(valueGramCarbs) * 4
+    const makeEnergyPlaceholder = () => {
+        const placeholder = toNumber(calculateKjFromMacros(Number(valueGramProtein), Number(valueGramFat), Number(valueGramCarbs)))
 
-        const kjPerKcal = 4.184
-
-        const totalKj = (kcalPerGramProtein + kcalPerGramFat + kcalPerGramCarbs) * kjPerKcal
-
-        return toNumberOrZero(Math.round(totalKj))
+        return String(placeholder)
     }
 
     return (
@@ -92,7 +82,7 @@ export const InputFood: React.FC<TableProps> = ({
                     label='Energy (kJ):'
                     inputMode='numeric'
                     flex={1}
-                    placeholder={String(calculateEnergyFromMacros())}
+                    placeholder={makeEnergyPlaceholder()}
                     onChangeText={onChangeTextKjEnergy}
                     value={String(valueKjEnergy)}
                 />
