@@ -39,7 +39,9 @@ const EditFoodPage: React.FC = () => {
     useEffect(() => { database.transaction(getFood) }, [])
 
     const onEditButtonPress = () => {
-        validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)
+        if (!validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)) {
+            return
+        }
 
         const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
 
