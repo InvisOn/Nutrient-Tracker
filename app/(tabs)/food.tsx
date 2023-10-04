@@ -2,35 +2,32 @@ import { StyleSheet } from 'react-native'
 import { View } from '@/components/Themed'
 import { useState, useEffect, useContext, useCallback } from 'react'
 import DynamicTable from '@/components/DynamicTable'
-import { SQLTransaction } from "expo-sqlite"
+import { SQLTransaction } from 'expo-sqlite'
 import { InputFood } from '@/components/InputFood'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
-import { useForceUpdate } from '@/utils/forceUpdate'
-import { calculateKjFromMacros, toNumber } from '@/utils/food'
-import consoleLogClock from '@/utils/debug'
+import { useForceRender } from '@/utils/forceUpdate'
+import { calculateKjFromMacros, isReal, toNumber } from '@/utils/food'
 
 const FoodTab = () => {
     const database = useContext(DatabaseContext)
 
     const [productName, setProductName] = useState<string>('')
 
-    // <string | number> to simplify placeholder value logic.
+    // <string | number> instead of <number> to simplify placeholder value logic.
     const [gramProtein, setProtein] = useState<string | number>('')
     const [gramFat, setFat] = useState<string | number>('')
     const [gramCarbs, setCarbs] = useState<string | number>('')
     const [kjEnergy, setEnergy] = useState<string | number>('')
 
-    const [forceUpdateId, forceUpdate] = useForceUpdate()
+    const [forceRenderId, forceRender] = useForceRender()
 
     const handleButtonPress = () => {
         if (productName === null || productName === "") {
             alert("Please type an ingredient name.")
             return false
         }
-
-        const isReal = (value: string | number) => !Number.isNaN(Number(value) && Number(value) <= 0)
 
         if (!isReal(gramProtein) || !isReal(gramFat) || !isReal(gramCarbs) || !isReal(kjEnergy)) {
             alert('Please input only numbers for protein, fat, carbs, and energy.')
@@ -53,7 +50,7 @@ const FoodTab = () => {
                 ])
             },
             undefined,
-            forceUpdate // Re-render when a food is added.
+            forceRender
         )
 
         setProductName('')
@@ -89,7 +86,7 @@ const FoodTab = () => {
     )
 
     // Re-render the when a food is added.
-    useEffect(() => { database.transaction(getRowsArrayFood) }, [forceUpdateId])
+    useEffect(() => { database.transaction(getRowsArrayFood) }, [forceRenderId])
 
     const numericCols = [1, 2, 3, 4]
     const primaryKeyCol = 0
@@ -119,7 +116,7 @@ const FoodTab = () => {
                 onButtonPress={handleButtonPress}
             />
             <DynamicTable
-                key={forceUpdateId}
+                key={forceRenderId}
                 columnsHeader={columnHeader}
                 flexColumn={{ columnIndex: 0, flex: 4 }}
                 numericCols={numericCols}
