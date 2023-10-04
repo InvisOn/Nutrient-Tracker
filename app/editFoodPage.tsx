@@ -5,6 +5,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useContext, useEffect, useState } from 'react'
 import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
+import Button from '@/components/Button'
 
 // ? should I addd this page to app/_layout.tsx?
 const EditFoodPage: React.FC = () => {
@@ -36,12 +37,25 @@ const EditFoodPage: React.FC = () => {
 
     useEffect(() => { database.transaction(getFood) }, [])
 
-    const onButtonPress = () => {
+    const onEditButtonPress = () => {
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql(
                     "UPDATE foods SET name = ?, protein = ?, fat = ?, carbs = ?, energy = ? WHERE id = ?",
                     [productName, gramProtein, gramFat, gramCarbs, kjEnergy, rowId]
+                )
+            }
+        )
+
+        useRouter().back()
+    }
+
+    const onDeleteButtonPress = () => {
+        database.transaction(
+            (tx: SQLTransaction) => {
+                tx.executeSql(
+                    "DELETE FROM foods WHERE id = ?",
+                    [rowId]
                 )
             }
         )
@@ -64,8 +78,9 @@ const EditFoodPage: React.FC = () => {
                 onChangeTextGramCarbs={setCarbs}
                 onChangeTextKjEnergy={setEnergy}
                 buttonLabel={'EDIT INGREDIENT'}
-                onButtonPress={onButtonPress}
+                onButtonPress={onEditButtonPress}
             />
+            <Button label='DELETE FOOD' onPress={onDeleteButtonPress} />
         </View>
     )
 }
