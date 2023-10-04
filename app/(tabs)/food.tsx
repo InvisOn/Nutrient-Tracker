@@ -8,14 +8,14 @@ import { useFocusEffect, useRouter } from 'expo-router'
 import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
 import { useForceRender } from '@/utils/forceUpdate'
-import { calculateKjFromMacros, isReal, toNumber } from '@/utils/food'
+import { convertFood, validateFood } from '@/utils/food'
 
 const FoodTab = () => {
     const database = useContext(DatabaseContext)
 
     const [productName, setProductName] = useState<string>('')
 
-    // <string | number> instead of <number> to simplify placeholder value logic.
+    // <string | number> instead of <number> to simplify placeholder value logic for InputFood.
     const [gramProtein, setProtein] = useState<string | number>('')
     const [gramFat, setFat] = useState<string | number>('')
     const [gramCarbs, setCarbs] = useState<string | number>('')
@@ -24,20 +24,11 @@ const FoodTab = () => {
     const [forceRenderId, forceRender] = useForceRender()
 
     const handleButtonPress = () => {
-        if (productName === null || productName === "") {
-            alert("Please type an ingredient name.")
-            return false
+        if (!validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)) {
+            return
         }
 
-        if (!isReal(gramProtein) || !isReal(gramFat) || !isReal(gramCarbs) || !isReal(kjEnergy)) {
-            alert('Please input only numbers for protein, fat, carbs, and energy.')
-            return false
-        }
-
-        const gramProteinNumber = toNumber(gramProtein)
-        const gramFatNumber = toNumber(gramFat)
-        const gramCarbsNumber = toNumber(gramCarbs)
-        const kjEnergyNumber = toNumber(kjEnergy) === 0 ? calculateKjFromMacros(gramProteinNumber, gramFatNumber, gramCarbsNumber) : toNumber(kjEnergy)
+        const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
 
         database.transaction(
             (tx: SQLTransaction) => {

@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from 'react'
 import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
 import Button from '@/components/Button'
+import { convertFood, validateFood } from '@/utils/food'
 
 // ? should I addd this page to app/_layout.tsx?
 const EditFoodPage: React.FC = () => {
@@ -38,11 +39,16 @@ const EditFoodPage: React.FC = () => {
     useEffect(() => { database.transaction(getFood) }, [])
 
     const onEditButtonPress = () => {
+        validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)
+
+        const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
+
         database.transaction(
             (tx: SQLTransaction) => {
+
                 tx.executeSql(
                     "UPDATE foods SET name = ?, protein = ?, fat = ?, carbs = ?, energy = ? WHERE id = ?",
-                    [productName, gramProtein, gramFat, gramCarbs, kjEnergy, rowId]
+                    [productName, gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber, rowId]
                 )
             }
         )
