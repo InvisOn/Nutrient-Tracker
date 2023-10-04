@@ -1,17 +1,13 @@
 import { StyleSheet } from 'react-native'
 import { View } from '@/components/Themed'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useCallback } from 'react'
 import DynamicTable from '@/components/DynamicTable'
 import { SQLTransaction } from "expo-sqlite"
 import { toNumberOrZero, InputFood } from '@/components/InputFood'
-import { useRouter } from 'expo-router'
-import DatabaseContext from '@/database/databaseContext'
+import { useFocusEffect, useRouter } from 'expo-router'
+import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
-
-const useForceUpdate = (): [number, () => void] => {
-    const [value, setValue] = useState(0)
-    return [value, () => setValue(value + 1)]
-}
+import { useForceUpdate } from '@/utils/forceUpdate'
 
 const FoodTab = () => {
     const database = useContext(DatabaseContext)
@@ -53,7 +49,7 @@ const FoodTab = () => {
                 ])
             },
             undefined,
-            forceUpdate
+            forceUpdate // Re-render when a food is added.
         )
 
         setProductName('')
@@ -63,6 +59,16 @@ const FoodTab = () => {
         setEnergy('')
     }
 
+    const [rowArray, setRowArray] = useState<string[][]>([])
+
+    const getRowsArrayFood = (tx: SQLTransaction) => {
+        tx.executeSql(
+            "SELECT * FROM foods ORDER BY id DESC",
+            [],
+            (_, { rows }) => setRowArray(convertSqlRows(rows))
+        )
+    }
+
     const handlePressRow = (rowId: number) => {
         useRouter().push({
             pathname: '/editFoodPage',
@@ -70,19 +76,16 @@ const FoodTab = () => {
         })
     }
 
-    const [rowArray, setRowArray] = useState<string[][]>([])
 
-    const getRowsLocal = (tx: SQLTransaction) => {
-        tx.executeSql(
-            "SELECT * FROM foods ORDER BY id DESC",
-            [],
-            (_, { rows }) => {
-                setRowArray(convertSqlRows(rows))
-            }
-        )
-    }
+    // Re-render when a food is edited.
+    useFocusEffect(
+        useCallback(() => {
+            database.transaction(getRowsArrayFood)
+        }, [])
+    )
 
-    useEffect(() => { database.transaction(getRowsLocal) }, [forceUpdateId])
+    // Re-render the when a food is added.
+    useEffect(() => { database.transaction(getRowsArrayFood) }, [forceUpdateId])
 
     const numericCols = [1, 2, 3, 4]
     const primaryKeyCol = 0
@@ -93,6 +96,7 @@ const FoodTab = () => {
         'Carbs',
         'Energy'
     ]
+
 
     return (
         <View style={styles.container}>

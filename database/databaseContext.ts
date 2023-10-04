@@ -1,7 +1,7 @@
 import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 
-export const createDatabase = (): Database => {
+const createDatabase = (): Database => {
     const database = openDatabase("food.db")
 
     const createTable = (tx: SQLTransaction) => {
@@ -27,6 +27,4 @@ export const createDatabase = (): Database => {
     return database
 }
 
-const DatabaseContext = createContext(createDatabase())
-
-export default DatabaseContext
+export const DatabaseContext = createContext(createDatabase())
