@@ -32,10 +32,14 @@ export const validateFood = (productName: string, gramProtein: string | number, 
         return false
     }
 
-    if (!isReal(gramProtein) || !isReal(gramFat) || !isReal(gramCarbs) || !isReal(kjEnergy)) {
-        alert('Please input only numbers for protein, fat, carbs, and energy.')
+    const foodNutrients = [gramProtein, gramFat, gramCarbs, kjEnergy]
 
-        return false
+    for (const n of foodNutrients) {
+        if (!isReal(n)) {
+            alert('Please input only real numbers for protein, fat, carbs, and energy.')
+
+            return false
+        }
     }
 
     return true
