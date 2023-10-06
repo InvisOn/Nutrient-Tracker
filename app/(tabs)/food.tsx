@@ -25,7 +25,7 @@ const FoodTab = () => {
 
     const handleButtonPress = () => {
         if (!validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)) {
-            return
+            return false
         }
 
         const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
@@ -55,16 +55,16 @@ const FoodTab = () => {
 
     const getRowsArrayFood = (tx: SQLTransaction) => {
         tx.executeSql(
-            "SELECT * FROM foods ORDER BY id DESC",
+            "SELECT * FROM foods ORDER BY id_food DESC",
             [],
             (_, { rows }) => setRowArray(convertSqlRows(rows))
         )
     }
 
-    const handlePressRow = (rowId: number) => {
+    const handlePressRow = (idFood: number) => {
         useRouter().push({
-            pathname: '/editFoodPage',
-            params: { rowId: rowId }
+            pathname: '/pages/editFoodPage',
+            params: { idFood: idFood }
         })
     }
 
@@ -82,7 +82,7 @@ const FoodTab = () => {
     const numericCols = [1, 2, 3, 4]
     const primaryKeyCol = 0
     const columnHeader = [
-        'Ingredient',
+        'Food',
         'Protein',
         'Fat',
         'Carbs',
@@ -122,21 +122,6 @@ const FoodTab = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    textMargin: {
-        marginLeft: 6,
-        marginRight: 6,
-        marginBottom: 10,
-    },
-    containerMacros: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginTop: 6,
-    },
-    buttonContainer: {
-        height: 68,
-        alignItems: 'center',
-        justifyContent: 'center',
     }
 })
 

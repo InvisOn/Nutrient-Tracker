@@ -8,11 +8,12 @@ import { SQLTransaction } from 'expo-sqlite'
 import Button from '@/components/Button'
 import { convertFood, validateFood } from '@/utils/food'
 
+// todo add calc kj button
 // ? should I addd this page to app/_layout.tsx?
 const EditFoodPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)
-    const rowId = String(params.rowId)
+    const rowId = Number(params.idFood)
 
     const [productName, setProductName] = useState<string>('')
     const [gramProtein, setProtein] = useState<string | number>('')
@@ -22,7 +23,7 @@ const EditFoodPage: React.FC = () => {
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
-            "SELECT name, protein, fat, carbs, energy FROM foods WHERE id = ?",
+            "SELECT name, protein, fat, carbs, energy FROM foods WHERE id_food = ?",
             [rowId],
             (_, { rows }) => {
                 const row = rows.item(0)
@@ -49,7 +50,7 @@ const EditFoodPage: React.FC = () => {
             (tx: SQLTransaction) => {
 
                 tx.executeSql(
-                    "UPDATE foods SET name = ?, protein = ?, fat = ?, carbs = ?, energy = ? WHERE id = ?",
+                    "UPDATE foods SET name = ?, protein = ?, fat = ?, carbs = ?, energy = ? WHERE id_food = ?",
                     [productName, gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber, rowId]
                 )
             }
@@ -62,7 +63,7 @@ const EditFoodPage: React.FC = () => {
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql(
-                    "DELETE FROM foods WHERE id = ?",
+                    "DELETE FROM foods WHERE id_food = ?",
                     [rowId]
                 )
             }

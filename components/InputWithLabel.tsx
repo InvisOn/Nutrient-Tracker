@@ -1,7 +1,7 @@
-import { StyleSheet, TextInput } from 'react-native';
-import React from 'react';
+import { StyleSheet, TextInput } from 'react-native'
+import React from 'react'
 
-import { Text, View } from '@/components/Themed';
+import { Text, View } from '@/components/Themed'
 
 type Props = {
     label: string;

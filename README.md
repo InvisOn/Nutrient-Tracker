@@ -2,7 +2,6 @@
 
 - `npx expo start`
   - Use `ctrl + up/down` to resize window.
-- [ChatGPT](https://chat.openai.com/c/646a15ae-a466-4d72-b40b-2fbd32f3dbca)
 - [MDN Web Docs](https://developer.mozilla.org/en-US/)
 - [React - docs](https://react.dev/)
 - [React Native - docs](https://reactnative.dev/)
