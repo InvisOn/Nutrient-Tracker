@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StyleSheet, View, Pressable, Text, StyleProp, ViewStyle } from 'react-native';
 
 export type Props = {
@@ -13,7 +14,10 @@ const Button: React.FC<Props> = ({
     return (
         <View style={[{ marginVertical: 10, marginHorizontal: 6 }, style]}>
             <Pressable
-                style={[styles.button, { borderRadius: 3, backgroundColor: "#2196f3" }]}
+                style={({pressed}) => [
+                    styles.button, { borderRadius: 3, backgroundColor: pressed ? "#0c7cd5" : "#2196f3" }
+                ]
+                }
                 onPress={onPress}>
                 <Text style={[styles.buttonLabel, { fontSize: 15, color: "#ffffff", fontWeight: 'bold' }]}>
                     {label}
