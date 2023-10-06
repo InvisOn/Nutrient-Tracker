@@ -2,7 +2,8 @@ import { StyleSheet, Text } from 'react-native'
 import { View } from '@/components/Themed'
 import InputWithLabel from '@/components/InputWithLabel'
 import Button from '@/components/Button'
-import { calculateKjFromMacros, toNumber } from '@/utils/food'
+import { calculateKjFromMacros } from '@/utils/food'
+import { toNumber } from '@/utils/numbers'
 
 type TableProps = {
     valueProductName: string,
@@ -42,7 +43,7 @@ export const InputFood: React.FC<TableProps> = ({
     return (
         <View>
             <View style={styles.textMargin}>
-                <Text>Add the ingredient name and nutrient content per 100g.</Text>
+                <Text>Input the food name and nutrient content per 100g.</Text>
             </View>
             <InputWithLabel
                 label='Name:'
@@ -52,7 +53,7 @@ export const InputFood: React.FC<TableProps> = ({
                 onChangeText={onChangeTextProductName}
                 value={String(valueProductName)}
             />
-            <View style={styles.containerMacros}>
+            <View style={styles.inputContainer}>
                 <InputWithLabel
                     label='Protein (g):'
                     inputMode='numeric'
@@ -93,22 +94,14 @@ export const InputFood: React.FC<TableProps> = ({
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     textMargin: {
         marginLeft: 6,
         marginRight: 6,
         marginBottom: 10,
     },
-    containerMacros: {
+    inputContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginTop: 6,
-    },
-    buttonContainer: {
-        height: 68,
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginTop: 6
     }
 })
