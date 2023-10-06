@@ -6,7 +6,3 @@ export const toNumber = (value: any): number => {
 
     return Number.isNaN(num) ? 0 : num
 }
-
-export const isReal = (value: any) => {
-    return Number(value) >= 0
-}
