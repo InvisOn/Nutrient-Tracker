@@ -2,7 +2,8 @@
 
 - `npx expo start`
   - Use `ctrl + up/down` to resize window.
-- [TS Playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nAJlAvFA3gKCjqYBOcwEAlgHYAKE+AEhAMbBwDm+AhgLYBcUZArhwBG1bLgBmbYFVoMmrTj35CRuKPTb5BAZ2l1GLdt14Dh+UTgDWAKwCiZasxC7ZBhceVmAvpkz04ZLTgAGwgAOiCWAAp4JEiASjigA)
+- [TS Playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nAJlAvFA3gKCjqYBOcwEAlgHYAKE+AEhAMbBwDm+AhgLYBcUZArhwBG1bLgBmbYFVoMmrTj35CRuKPTb5BAZ2l1GLdt14Dh
+- [Color Hex - ColorHexa.com](https://www.colorhexa.com/)+UTgDWAKwCiZasxC7ZBhceVmAvpkz04ZLTgAGwgAOiCWAAp4JEiASjigA)
 - [MDN Web Docs](https://developer.mozilla.org/en-US/)
 - [React - docs](https://react.dev/)
 - [React Native - docs](https://reactnative.dev/)
