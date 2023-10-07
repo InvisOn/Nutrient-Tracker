@@ -48,13 +48,11 @@ const DynamicTable: React.FC<TableProps> = ({
                             setSelectedRow(col)
                         }}
                         style={({ pressed }) => {
-                            if (highLightRowOnPress) {
                                 return [{
                                     borderWidth: 0.2,
                                     borderColor: "black",
-                                    backgroundColor: selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
+                                    backgroundColor: highLightRowOnPress && selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
                                 }]
-                            }
                         }}>
                         <View style={styles.rows}>
                             {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (
