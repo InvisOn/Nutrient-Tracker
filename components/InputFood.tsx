@@ -5,7 +5,7 @@ import Button from '@/components/Button'
 import { calculateKjFromMacros } from '@/utils/food'
 import { toNumber } from '@/utils/numbers'
 
-type TableProps = {
+type Props = {
     valueProductName: string,
     valueGramProtein: string | number,
     valueGramFat: string | number,
@@ -20,7 +20,7 @@ type TableProps = {
     onButtonPress: () => void
 }
 
-export const InputFood: React.FC<TableProps> = ({
+export const InputFood: React.FC<Props> = ({
     valueProductName,
     valueGramProtein,
     valueGramFat,
