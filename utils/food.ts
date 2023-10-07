@@ -16,17 +16,17 @@ export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gram
 /**
  * Calculate the nutrient and energy content of a amount of food in grams and kJ, respectively.
  * @param gramsPortion Mass of the food in gram.
- * @param macroContentFoodPerHectoGram Macro-nutrient content of the food consumed per 100 grams.
+ * @param nutritionContentFoodPerHectoGram Macro-nutrient content of the food consumed per 100 grams.
  * @returns Total nutrient and energy content of the portion of food in grams and kJ, respectively.
  */
-export const calcMacroContentFoodPortion = (gramsPortion: number, macroContentFoodPerHectoGram: NutritionPerHectogram) => {
+export const calcNutritionContentFoodPortion = (gramsPortion: number, nutritionContentFoodPerHectoGram: NutritionPerHectogram) => {
 
     const hectoGramConversionFactor = 0.01
     const macroContentFood: NutritionPerHectogram = {
-        gramsProtein: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsProtein * hectoGramConversionFactor, 2),
-        gramsFat: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsFat * hectoGramConversionFactor, 2),
-        gramsCarbs: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsCarbs * hectoGramConversionFactor, 2),
-        kjEnergy: roundTo(gramsPortion * macroContentFoodPerHectoGram.kjEnergy * hectoGramConversionFactor, 2)
+        gramsProtein: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.gramsProtein * hectoGramConversionFactor, 2),
+        gramsFat: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.gramsFat * hectoGramConversionFactor, 2),
+        gramsCarbs: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.gramsCarbs * hectoGramConversionFactor, 2),
+        kjEnergy: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.kjEnergy * hectoGramConversionFactor, 2)
     }
 
     return macroContentFood

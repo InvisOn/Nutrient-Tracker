@@ -2,7 +2,7 @@ import { StyleSheet, TextInput } from 'react-native'
 import { View, Text } from '@/components/Themed'
 import Button from '@/components/Button'
 import { NutritionPerHectogram } from '@/types/Food'
-import { calcMacroContentFoodPortion } from '@/utils/food'
+import { calcNutritionContentFoodPortion } from '@/utils/food'
 
 type Props = {
     grams: string,
@@ -19,7 +19,7 @@ export const ConsumedFoodInput: React.FC<Props> = ({
     buttonLabel,
     onButtonPress
 }) => {
-    const gramsConsumedNutrientContent = calcMacroContentFoodPortion(Number(grams), nutrientContentFood)
+    const gramsConsumedNutrientContent = calcNutritionContentFoodPortion(Number(grams), nutrientContentFood)
 
     return (
         <View>
