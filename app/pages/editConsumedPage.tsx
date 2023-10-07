@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
 import Button from '@/components/Button'
-import { Food } from '@/types/Food'
+import { NutritionPerHectogram } from '@/types/Food'
 
 // ? should I add this page to app/_layout.tsx?
 export const EditConsumedPage: React.FC = () => {
@@ -17,9 +17,9 @@ export const EditConsumedPage: React.FC = () => {
     const [idFood, setIdFood] = useState<number>(-1)
     const [gramsConsumed, setGramsConsumed] = useState<number>(-1)
 
-    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<Food>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
-    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<Food>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
     const getConsumedFood = (tx: SQLTransaction) => {
         tx.executeSql(

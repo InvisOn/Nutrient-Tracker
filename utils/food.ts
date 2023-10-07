@@ -1,5 +1,5 @@
 import { roundTo, toNumber } from "./numbers"
-import { Food } from '@/types/Food'
+import { NutritionPerHectogram } from '@/types/Food'
 
 export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gramCarbs: number): number => {
     const kcalPerGramProtein = gramProtein * 4
@@ -19,10 +19,10 @@ export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gram
  * @param macroContentFoodPerHectoGram Macro-nutrient content of the food consumed per 100 grams.
  * @returns Total nutrient and energy content of the portion of food in grams and kJ, respectively.
  */
-export const calcMacroContentFoodPortion = (gramsPortion: number, macroContentFoodPerHectoGram: Food) => {
+export const calcMacroContentFoodPortion = (gramsPortion: number, macroContentFoodPerHectoGram: NutritionPerHectogram) => {
 
     const hectoGramConversionFactor = 0.01
-    const macroContentFood: Food = {
+    const macroContentFood: NutritionPerHectogram = {
         gramsProtein: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsProtein * hectoGramConversionFactor, 2),
         gramsFat: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsFat * hectoGramConversionFactor, 2),
         gramsCarbs: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsCarbs * hectoGramConversionFactor, 2),

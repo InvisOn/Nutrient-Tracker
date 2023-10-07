@@ -6,7 +6,7 @@ import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
 import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
-import { Food } from '@/types/Food'
+import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
 
 // ? should I addd this page to app/_layout.tsx?
@@ -18,9 +18,9 @@ const PickConsumedFood: React.FC = () => {
 
     const [rowArray, setRowArray] = useState<string[][]>([])
 
-    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<Food>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
-    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<Food>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
@@ -43,7 +43,7 @@ const PickConsumedFood: React.FC = () => {
                     const row = convertSqlRows(rows)[0].map((n) => Number(n))
                     const [proteinSelectedRow, fatSelectedRow, carbsSelectedRow, kjSelectedRow] = row
 
-                    const nutrientContentRow: Food = {
+                    const nutrientContentRow: NutritionPerHectogram = {
                         gramsProtein: proteinSelectedRow,
                         gramsFat: fatSelectedRow,
                         gramsCarbs: carbsSelectedRow,
