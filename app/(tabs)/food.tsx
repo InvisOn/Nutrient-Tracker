@@ -27,7 +27,15 @@ const FoodTab = () => {
             return false
         }
 
-        const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
+        const totalNutritionContent = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
+
+        if (totalNutritionContent.slice(0, -1).reduce((sum, value) => sum + value) > 100) {
+            alert("Total nutrition content cannot exceed 100 grams.")
+
+            return false
+        }
+
+        const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = totalNutritionContent
 
         database.transaction(
             (tx: SQLTransaction) => {
@@ -88,7 +96,7 @@ const FoodTab = () => {
         'Energy'
     ]
 
-
+    // todo alert if total macro content food exceeds 100grams.
     return (
         <View style={styles.container}>
             <InputFood
