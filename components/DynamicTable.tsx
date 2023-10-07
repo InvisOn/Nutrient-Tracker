@@ -22,7 +22,7 @@ const DynamicTable: React.FC<TableProps> = ({
     rowArray
 }) => {
     const [selectedRow, setSelectedRow] = useState(-1)
-
+""
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
