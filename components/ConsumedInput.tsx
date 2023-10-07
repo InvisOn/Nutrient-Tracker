@@ -3,7 +3,6 @@ import { View, Text } from '@/components/Themed'
 import Button from '@/components/Button'
 import { NutritionPerHectogram } from '@/types/Food'
 import { calcNutritionContentFoodPortion } from '@/utils/food'
-import { consoleLogClock } from '@/utils/debug'
 
 type Props = {
     grams: string,

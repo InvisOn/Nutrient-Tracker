@@ -1,4 +1,3 @@
-import { consoleLogClock } from "@/utils/debug"
 import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 

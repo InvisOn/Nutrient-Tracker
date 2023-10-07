@@ -1,4 +1,3 @@
-import { consoleLogClock } from '@/utils/debug'
 import { useState } from 'react'
 import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
 
@@ -48,11 +47,11 @@ const DynamicTable: React.FC<TableProps> = ({
                             setSelectedRow(col)
                         }}
                         style={({ pressed }) => {
-                                return [{
-                                    borderWidth: 0.2,
-                                    borderColor: "black",
-                                    backgroundColor: highLightRowOnPress && selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
-                                }]
+                            return [{
+                                borderWidth: 0.2,
+                                borderColor: "black",
+                                backgroundColor: highLightRowOnPress && selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
+                            }]
                         }}>
                         <View style={styles.rows}>
                             {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (

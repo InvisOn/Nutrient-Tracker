@@ -8,6 +8,7 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
 import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
+import { consoleLogTime } from '@/utils/debug'
 
 const PickConsumedFood: React.FC = () => {
     const database = useContext(DatabaseContext)
@@ -77,7 +78,7 @@ const PickConsumedFood: React.FC = () => {
                 tx.executeSql("INSERT INTO food_consumed (grams, id_food) VALUES (?, ?)", [
                     grams,
                     idFood
-                ])
+                ], () => consoleLogTime("success"))
             }
         )
 

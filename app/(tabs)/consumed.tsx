@@ -8,7 +8,6 @@ import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
 import { useForceRender } from '@/utils/forceRender'
 import Button from '@/components/Button'
-import { consoleLogClock } from '@/utils/debug'
 
 // todo how to design the database that i have 2 tables. 1 with foods, other with consumed_foods.
 // store primary key of foods in consumed_foods table. Store date and weight in grams consumed.
