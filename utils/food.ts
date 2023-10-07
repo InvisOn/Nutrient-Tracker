@@ -1,4 +1,5 @@
-import { isReal, toNumber } from "./numbers"
+import { roundTo, toNumber } from "./numbers"
+import { Food } from '@/types/Food'
 
 export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gramCarbs: number): number => {
     const kcalPerGramProtein = gramProtein * 4
@@ -12,6 +13,26 @@ export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gram
     return Math.round(totalKj)
 }
 
+/**
+ * Calculate the nutrient and energy content of a amount of food in grams and kJ, respectively.
+ * @param gramsPortion Mass of the food in gram.
+ * @param macroContentFoodPerHectoGram Macro-nutrient content of the food consumed per 100 grams.
+ * @returns Total nutrient and energy content of the portion of food in grams and kJ, respectively.
+ */
+export const calcMacroContentFoodPortion = (gramsPortion: number, macroContentFoodPerHectoGram: Food) => {
+
+    const hectoGramConversionFactor = 0.01
+    const macroContentFood: Food = {
+        gramsProtein: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsProtein * hectoGramConversionFactor, 2),
+        gramsFat: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsFat * hectoGramConversionFactor, 2),
+        gramsCarbs: roundTo(gramsPortion * macroContentFoodPerHectoGram.gramsCarbs * hectoGramConversionFactor, 2),
+        kjEnergy: roundTo(gramsPortion * macroContentFoodPerHectoGram.kjEnergy * hectoGramConversionFactor, 2)
+    }
+
+    return macroContentFood
+}
+
+// ? What is the point of this function?
 export const convertFood = (gramProtein: string | number, gramFat: string | number, gramCarbs: string | number, kjEnergy: string | number) => {
 
     const gramProteinNumber = Number(gramProtein)
@@ -35,8 +56,8 @@ export const validateFood = (productName: string, gramProtein: string | number, 
     const foodNutrients = [gramProtein, gramFat, gramCarbs, kjEnergy]
 
     for (const n of foodNutrients) {
-        if (!isReal(n)) {
-            alert('Please input only real numbers for protein, fat, carbs, and energy.')
+        if (!(Number(n) >= 0)) {
+            alert('Please input only a zero or greater for protein, fat, carbs, and energy.')
 
             return false
         }

@@ -37,7 +37,18 @@ const DynamicTable: React.FC<TableProps> = ({
                     <Pressable
                         key={Number(row[primaryKeyCol])}
                         onPress={() => onPressRow(Number(row[primaryKeyCol]))}
-                        style={{ borderWidth: 0.2 }}>
+                        style={({ pressed }) => {
+                            let borderWidth = 0.2
+                            let borderColor = ""
+                            let backgroundColor = ""
+
+                            if (pressed) {
+                                borderWidth = 1
+                                backgroundColor = ""
+                                borderColor = ""
+                            }
+                            return [{ borderWidth: 0.2, backgroundColor: backgroundColor }]
+                        }}>
                         <View style={styles.rows}>
                             {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (
                                 <Text
