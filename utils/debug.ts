@@ -15,7 +15,7 @@ const consoleLogHelper = (...msg: any) => {
     const minutes = String(now.getMinutes()).padStart(2, '0')
     const seconds = String(now.getSeconds()).padStart(2, '0')
 
-    return [`${hours}:${minutes}:${seconds}\n`, ...newMsg]
+    return [`${hours}:${minutes}:${seconds} -`, ...newMsg]
 }
 
 /**
