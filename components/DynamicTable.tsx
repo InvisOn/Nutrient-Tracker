@@ -1,3 +1,5 @@
+import { consoleLogClock } from '@/utils/debug'
+import { useState } from 'react'
 import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
 
 type TableProps = {
@@ -6,7 +8,8 @@ type TableProps = {
     numericCols: number[],
     primaryKeyCol: number,
     onPressRow: (id: number) => void,
-    rowArray: string[][]
+    highLightRowOnPress: boolean
+    rowArray: (string | number)[][]
 }
 
 const DynamicTable: React.FC<TableProps> = ({
@@ -15,8 +18,11 @@ const DynamicTable: React.FC<TableProps> = ({
     numericCols,
     primaryKeyCol,
     onPressRow,
+    highLightRowOnPress,
     rowArray
 }) => {
+    const [selectedRow, setSelectedRow] = useState(-1)
+
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
@@ -35,19 +41,20 @@ const DynamicTable: React.FC<TableProps> = ({
             <ScrollView style={styles.scrollView}>
                 {rowArray.map((row) => (
                     <Pressable
-                        key={Number(row[primaryKeyCol])}
-                        onPress={() => onPressRow(Number(row[primaryKeyCol]))}
+                        key={row[primaryKeyCol]}
+                        onPress={() => {
+                            const col = Number(row[primaryKeyCol])
+                            onPressRow(col)
+                            setSelectedRow(col)
+                        }}
                         style={({ pressed }) => {
-                            let borderWidth = 0.2
-                            let borderColor = ""
-                            let backgroundColor = ""
-
-                            if (pressed) {
-                                borderWidth = 1
-                                backgroundColor = ""
-                                borderColor = ""
+                            if (highLightRowOnPress) {
+                                return [{
+                                    borderWidth: 0.2,
+                                    borderColor: "black",
+                                    backgroundColor: selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
+                                }]
                             }
-                            return [{ borderWidth: 0.2, backgroundColor: backgroundColor }]
                         }}>
                         <View style={styles.rows}>
                             {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (

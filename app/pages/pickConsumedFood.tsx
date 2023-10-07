@@ -23,7 +23,7 @@ const PickConsumedFood: React.FC = () => {
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
-            "SELECT * FROM foods",
+            "SELECT * FROM foods ORDER BY id_food DESC",
             [],
             (_, { rows }) => setRowArray(convertSqlRows(rows))
         )
@@ -111,6 +111,7 @@ const PickConsumedFood: React.FC = () => {
                 columnsHeader={columnHeader}
                 numericCols={numericCols}
                 rowArray={rowArray}
+                highLightRowOnPress={true}
                 onPressRow={handleRowPress} />
             <Stack.Screen options={{ title: "Pick Consumed Food" }} />
         </View>

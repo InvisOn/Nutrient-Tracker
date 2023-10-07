@@ -120,6 +120,7 @@ const FoodTab = () => {
                 numericCols={numericCols}
                 primaryKeyCol={primaryKeyCol}
                 onPressRow={handlePressRow}
+                highLightRowOnPress={false}
                 rowArray={rowArray}
             />
         </View>
