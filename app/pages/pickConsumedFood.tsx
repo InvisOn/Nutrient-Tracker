@@ -8,6 +8,7 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
 import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
+import { consoleLogTime } from '@/utils/debug'
 
 const PickConsumedFood: React.FC = () => {
     const database = useContext(DatabaseContext)
@@ -64,12 +65,20 @@ const PickConsumedFood: React.FC = () => {
 
                 setNutrientContentSelectedFood({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
-                return false
+                return 
             }
         }
     }
 
     const handlePickButtonPress = () => {
+        if (grams === '') {
+            alert("Input grams.")
+            return
+        } else if (idFood === -1) {
+            alert("Select row.")
+            return
+        }
+
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql("INSERT INTO food_consumed (grams_consumed, id_food) VALUES (?, ?)", [
