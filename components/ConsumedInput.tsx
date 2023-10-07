@@ -3,11 +3,12 @@ import { View, Text } from '@/components/Themed'
 import Button from '@/components/Button'
 import { NutritionPerHectogram } from '@/types/Food'
 import { calcNutritionContentFoodPortion } from '@/utils/food'
+import { consoleLogClock } from '@/utils/debug'
 
 type Props = {
     grams: string,
     buttonLabel: string,
-    nutrientContentFood: NutritionPerHectogram,
+    nutritionContentFood: NutritionPerHectogram,
     onChangeGramsInput: (value: string) => void,
     onButtonPress: () => void
 }
@@ -15,11 +16,11 @@ type Props = {
 export const ConsumedFoodInput: React.FC<Props> = ({
     grams,
     onChangeGramsInput,
-    nutrientContentFood,
+    nutritionContentFood,
     buttonLabel,
     onButtonPress
 }) => {
-    const gramsConsumedNutrientContent = calcNutritionContentFoodPortion(Number(grams), nutrientContentFood)
+    const gramsConsumedNutritionContentFoodPortion = calcNutritionContentFoodPortion(Number(grams), nutritionContentFood)
 
     return (
         <View>
@@ -38,16 +39,16 @@ export const ConsumedFoodInput: React.FC<Props> = ({
             </View>
             <View style={styles.inputContainer}>
                 <Text style={[styles.nutrientsText, styles.margin]}>
-                    Protein: {gramsConsumedNutrientContent.gramsProtein}
+                    Protein: {gramsConsumedNutritionContentFoodPortion.gramsProtein}
                 </Text>
                 <Text style={[styles.nutrientsText, styles.margin]}>
-                    Fat: {gramsConsumedNutrientContent.gramsFat}
+                    Fat: {gramsConsumedNutritionContentFoodPortion.gramsFat}
                 </Text>
                 <Text style={[styles.nutrientsText, styles.margin]}>
-                    Carbs: {gramsConsumedNutrientContent.gramsCarbs}
+                    Carbs: {gramsConsumedNutritionContentFoodPortion.gramsCarbs}
                 </Text>
                 <Text style={[styles.nutrientsText, styles.margin]}>
-                    kJ: {gramsConsumedNutrientContent.kjEnergy}
+                    kJ: {gramsConsumedNutritionContentFoodPortion.kjEnergy}
                 </Text>
             </View>
         </View>

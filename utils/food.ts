@@ -22,8 +22,8 @@ export const calculateKjFromMacros = (gramProtein: number, gramFat: number, gram
 export const calcNutritionContentFoodPortion = (gramsPortion: number, nutritionContentFoodPerHectoGram: NutritionPerHectogram) => {
 
     const hectoGramConversionFactor = 0.01
-    const roundDecimalPlace = 1
-    
+    const roundDecimalPlace = 2
+
     const macroContentFood: NutritionPerHectogram = {
         gramsProtein: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.gramsProtein * hectoGramConversionFactor, roundDecimalPlace),
         gramsFat: roundTo(gramsPortion * nutritionContentFoodPerHectoGram.gramsFat * hectoGramConversionFactor, roundDecimalPlace),

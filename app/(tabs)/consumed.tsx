@@ -24,7 +24,6 @@ import Button from '@/components/Button'
 const ConsumedTab = () => {
     const database = useContext(DatabaseContext)
 
-
     const [forceRenderId, forceRender] = useForceRender()
 
     const handleAddConsumedButtonPress = () => {

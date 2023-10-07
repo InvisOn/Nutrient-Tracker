@@ -8,6 +8,7 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
 import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
+import { consoleLogClock } from '@/utils/debug'
 
 // ? should I addd this page to app/_layout.tsx?
 const PickConsumedFood: React.FC = () => {
@@ -18,9 +19,7 @@ const PickConsumedFood: React.FC = () => {
 
     const [rowArray, setRowArray] = useState<string[][]>([])
 
-    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
-
-    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [nutritionContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
@@ -67,7 +66,7 @@ const PickConsumedFood: React.FC = () => {
 
                 setGrams('')
 
-                setGramsConsumedNutrientContentSelectedFood({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+                setNutrientContentSelectedFood({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
                 return false
             }
@@ -89,13 +88,6 @@ const PickConsumedFood: React.FC = () => {
 
     useEffect(() => { database.transaction(getFood) }, [])
 
-    useEffect(() => {
-        if (idFood >= 0) {
-            setGramsConsumedNutrientContentSelectedFood(nutrientContentSelectedFood)
-        }
-
-    }, [idFood, nutrientContentSelectedFood, grams])
-
     const numericCols = [1, 2, 3, 4]
     const primaryKeyCol = 0
     const columnHeader = [
@@ -105,13 +97,12 @@ const PickConsumedFood: React.FC = () => {
         'Carbs',
         'Energy'
     ]
-
     return (
         <View style={styles.container}>
             <ConsumedFoodInput
                 grams={grams}
                 onChangeGramsInput={onChangeGramsInput}
-                nutrientContentFood={gramsConsumedNutrientContentSelectedFood}
+                nutritionContentFood={nutritionContentSelectedFood}
                 buttonLabel='PICK FOOD'
                 onButtonPress={handlePickButtonPress} />
             <DynamicTable
