@@ -24,15 +24,14 @@ const FoodTab = () => {
 
     const handleButtonPress = () => {
         if (!validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)) {
-            return false
+            return
         }
 
         const totalNutritionContent = convertFood(gramProtein, gramFat, gramCarbs, kjEnergy)
 
         if (totalNutritionContent.slice(0, -1).reduce((sum, value) => sum + value) > 100) {
             alert("Total nutrition content cannot exceed 100 grams.")
-
-            return false
+            return
         }
 
         const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = totalNutritionContent

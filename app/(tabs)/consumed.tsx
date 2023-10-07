@@ -61,7 +61,7 @@ const ConsumedTab = () => {
     }
 
 
-    // Re-render when a row is edited.
+    // Re-render when a row is edited or added.
     useFocusEffect(
         useCallback(() => {
             database.transaction(getRowsArrayConsumed)
@@ -69,7 +69,7 @@ const ConsumedTab = () => {
     )
 
     // Re-render the when a row is added.
-    useEffect(() => { database.transaction(getRowsArrayConsumed) }, [forceRenderId])
+    useEffect(() => { database.transaction(getRowsArrayConsumed) }, [])
 
     const numericCols = [1, 2, 3, 4, 5]
     const primaryKeyCol = 0
