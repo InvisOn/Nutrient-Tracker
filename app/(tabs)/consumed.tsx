@@ -8,6 +8,7 @@ import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
 import { useForceRender } from '@/utils/forceRender'
 import Button from '@/components/Button'
+import { consoleLogClock } from '@/utils/debug'
 
 // todo how to design the database that i have 2 tables. 1 with foods, other with consumed_foods.
 // store primary key of foods in consumed_foods table. Store date and weight in grams consumed.
@@ -36,14 +37,25 @@ const ConsumedTab = () => {
 
     const getRowsArrayConsumed = (tx: SQLTransaction) => {
         tx.executeSql(
-            "SELECT * FROM food_consumed ORDER BY id_food DESC",
+            `SELECT food_consumed.id_consumed,
+                foods.name,
+                food_consumed.grams_consumed,
+                ROUND(food_consumed.grams_consumed * foods.protein * 0.01, 2) AS total_protein,
+                ROUND(food_consumed.grams_consumed * foods.fat * 0.01, 2)  AS total_fat,
+                ROUND(food_consumed.grams_consumed * foods.carbs * 0.01, 2)  AS total_carbs,
+                ROUND(food_consumed.grams_consumed * foods.energy * 0.01, 2)  AS total_energy
+            FROM food_consumed
+            JOIN foods
+                ON food_consumed.id_food = foods.id_food
+            ORDER BY food_consumed.id_consumed DESC;`,
             [],
-            (_, { rows }) => setRowArray([["1", "A", "1", "1", "1", "1", "1"]])//setRowArray(convertSqlRows(rows))
+            (_, { rows }) => setRowArray(convertSqlRows(rows))
         )
     }
 
     const handlePressRow = (rowId: number) => {
         useRouter().push({
+            // bug why not find editConsumedPage?
             pathname: '/pages/editConsumedPage',
             params: { rowId: rowId }
         })
@@ -64,21 +76,21 @@ const ConsumedTab = () => {
     const primaryKeyCol = 0
     const columnHeader = [
         'Food',
-        "Gram",
+        'Gram',
         'Protein',
         'Fat',
         'Carbs',
         'Energy'
     ]
 
-
+    // bug gram column is narrower
     return (
         <View style={styles.container}>
             <Button label='ADD CONSUMED FOOD' onPress={handleAddConsumedButtonPress} />
             <DynamicTable
                 key={forceRenderId}
                 columnsHeader={columnHeader}
-                flexColumn={{ columnIndex: primaryKeyCol, flex: 4 }}
+                flexColumn={{ columnIndex: primaryKeyCol, flex: 2 }}
                 numericCols={numericCols}
                 primaryKeyCol={primaryKeyCol}
                 onPressRow={handlePressRow}

@@ -8,9 +8,7 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
 import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
-import { consoleLogClock } from '@/utils/debug'
 
-// ? should I addd this page to app/_layout.tsx?
 const PickConsumedFood: React.FC = () => {
     const database = useContext(DatabaseContext)
 
@@ -97,6 +95,7 @@ const PickConsumedFood: React.FC = () => {
         'Carbs',
         'Energy'
     ]
+
     return (
         <View style={styles.container}>
             <ConsumedFoodInput

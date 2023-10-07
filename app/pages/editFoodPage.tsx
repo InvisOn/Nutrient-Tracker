@@ -9,7 +9,6 @@ import Button from '@/components/Button'
 import { convertFood, validateFood } from '@/utils/food'
 
 // todo add calc kj button
-// ? should I addd this page to app/_layout.tsx?
 const EditFoodPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)

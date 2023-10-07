@@ -2,7 +2,7 @@
  * Logs the message to console. Will indent strings ending with colon.
  * @param msg
  */
-export const consoleLogClock = (...msg: any) => {
+export const consoleLogClock = (isError: boolean, ...msg: any) => {
     const newMsg: any = []
 
     for (const m of msg) {
@@ -19,5 +19,9 @@ export const consoleLogClock = (...msg: any) => {
     const minutes = String(now.getMinutes()).padStart(2, '0')
     const seconds = String(now.getSeconds()).padStart(2, '0')
 
-    console.log(`${hours}:${minutes}:${seconds}`, "\n", ...newMsg, "\n")
+    if (isError) {
+        console.error(`${hours}:${minutes}:${seconds}`, "\n", ...newMsg, "\n")
+    } else {
+        console.log(`${hours}:${minutes}:${seconds}`, "\n", ...newMsg, "\n")
+    }
 }

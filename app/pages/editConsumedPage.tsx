@@ -8,7 +8,7 @@ import Button from '@/components/Button'
 import { NutritionPerHectogram } from '@/types/Food'
 
 // ? should I add this page to app/_layout.tsx?
-export const EditConsumedPage: React.FC = () => {
+const EditConsumedPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)
     const rowId = String(params.rowId)
@@ -67,22 +67,8 @@ export const EditConsumedPage: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Stack.Screen options={{ title: "Edit Consumed" }} />
-            {/* <InputFood
-                valueProductName={idConsumed}
-                valueGramProtein={gramProtein}
-                valueGramFat={gramFat}
-                valueGramCarbs={gramCarbs}
-                valueKjEnergy={kjEnergy}
-                onChangeTextProductName={setProductName}
-                onChangeTextGramProtein={setProtein}
-                onChangeTextGramFat={setFat}
-                onChangeTextGramCarbs={setCarbs}
-                onChangeTextKjEnergy={setKjEnergy}
-                buttonLabel={'EDIT INGREDIENT'}
-                onButtonPress={onEditButtonPress}
-            /> */}
             <Button label='DELETE FOOD' onPress={onDeleteButtonPress} />
+            <Stack.Screen options={{ title: "Edit Consumed" }} />
         </View>
     )
 }
@@ -93,3 +79,5 @@ const styles = StyleSheet.create({
         paddingTop: 10
     }
 })
+
+export default EditConsumedPage
