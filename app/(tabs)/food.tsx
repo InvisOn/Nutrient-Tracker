@@ -7,12 +7,11 @@ import { InputFood } from '@/components/InputFood'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
-import { useForceRender } from '@/utils/forceUpdate'
+import { useForceRender } from '@/utils/forceRender'
 import { convertFood, validateFood } from '@/utils/food'
 
 const FoodTab = () => {
     const database = useContext(DatabaseContext)
-
     const [productName, setProductName] = useState<string>('')
 
     // <string | number> instead of <number> to simplify placeholder value logic for InputFood.
