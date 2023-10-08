@@ -8,7 +8,6 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
 import { NutritionPerHectogram } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
-import { consoleLogTime } from '@/utils/debug'
 
 const PickConsumedFood: React.FC = () => {
     const database = useContext(DatabaseContext)
@@ -65,7 +64,7 @@ const PickConsumedFood: React.FC = () => {
 
                 setNutrientContentSelectedFood({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
-                return 
+                return
             }
         }
     }
