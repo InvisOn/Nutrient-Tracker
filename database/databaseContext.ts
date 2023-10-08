@@ -10,9 +10,7 @@ const createDatabase = (): Database => {
         tx.executeSql("DROP TABLE food_consumed;");
 
         tx.executeSql(
-            // todo I want to change to field names to be more descriptive (fat -> fat_per_hectogram)
-            // Currently it is a hassle to change it everywhere in the code base.
-            // Perhaps an ORM can help?
+            // todo If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
             `CREATE TABLE IF NOT EXISTS foods (
                 id_food INTEGER PRIMARY KEY NOT NULL,
                 name TEXT NOT NULL,

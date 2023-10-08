@@ -98,7 +98,6 @@ const FoodTab = () => {
         'Energy'
     ]
 
-    // todo alert if total macro content food exceeds 100grams.
     return (
         <View style={styles.container}>
             <InputFood

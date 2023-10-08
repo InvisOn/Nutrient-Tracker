@@ -8,7 +8,6 @@ import { SQLTransaction } from 'expo-sqlite'
 import Button from '@/components/Button'
 import { convertFood, validateFood } from '@/utils/food'
 
-// todo add calc kj button
 const EditFoodPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)
@@ -58,7 +57,7 @@ const EditFoodPage: React.FC = () => {
         useRouter().back()
     }
 
-    const onDeleteButtonPress = () => { // bug deleting foods row removes entries join with foods_consumed. Just have a delete flag? Or deleted foods table? Fields id_deleted and id_food. 
+    const onDeleteButtonPress = () => { // bug deleting foods row removes entries join with foods_consumed. Just have a delete flag? Or deleted foods table? Fields id_deleted and id_food.
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql(

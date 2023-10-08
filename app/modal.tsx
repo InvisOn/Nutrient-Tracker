@@ -20,7 +20,6 @@ export const makeModalButton = (colorScheme: ColorSchemeName) => {
     </Link>)
 }
 
-// todo what is the modal screen?
 export default function ModalScreen() {
     return (
         <View style={styles.container}>

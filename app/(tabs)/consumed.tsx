@@ -6,21 +6,9 @@ import { SQLTransaction } from 'expo-sqlite'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
-import { useForceRender } from '@/utils/forceRender'
 import Button from '@/components/Button'
 
-// todo how to design the database that i have 2 tables. 1 with foods, other with consumed_foods.
-// store primary key of foods in consumed_foods table. Store date and weight in grams consumed.
-// todo consumed tab
-// consumed table
-// make pick food button
-// make consumed table
-// make edit consumed foods on press row
-// todo make edit consumed page
-// also delete button
-// todo make pick food page with foods table where to pick food press on row. Long press edit.
-// make add new food button
-// entire page might as well be a slightly modified FoodTab
+// todo add date and time of added entries
 const ConsumedTab = () => {
     const database = useContext(DatabaseContext)
 
@@ -78,7 +66,6 @@ const ConsumedTab = () => {
         'Energy'
     ]
 
-    // bug gram column is narrower
     return (
         <View style={styles.container}>
             <Button label='ADD CONSUMED FOOD' onPress={handleAddConsumedButtonPress} />

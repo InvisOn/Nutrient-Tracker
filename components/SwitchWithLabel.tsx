@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const SwitchWithLabel: React.FC<Props> = ({ // todo finish this
+const SwitchWithLabel: React.FC<Props> = ({
     label
 }) => {
     const [isEnabled, setIsEnabled] = useState(false);
