@@ -60,10 +60,6 @@ const PickConsumedFood: React.FC = () => {
             if (Number.isNaN(gramNumber) || gramNumber <= 0) {
                 alert("Please only input a number above zero.")
 
-                setGrams('')
-
-                setNutrientContentSelectedFood({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
-
                 return
             }
         }

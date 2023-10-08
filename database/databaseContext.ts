@@ -6,8 +6,8 @@ const createDatabase = (): Database => {
 
     const createTable = (tx: SQLTransaction) => {
         // !! temporary, to prevent the db from ballooning in size when debugging.
-        tx.executeSql("--sql DROP TABLE foods;");
-        tx.executeSql("--sql DROP TABLE food_consumed;");
+        tx.executeSql("DROP TABLE foods;");
+        tx.executeSql("DROP TABLE food_consumed;");
 
         tx.executeSql(
             // todo I want to change to field names to be more descriptive (fat -> fat_per_hectogram)
@@ -45,7 +45,6 @@ const createDatabase = (): Database => {
         for (let i = 1; i <= 20; i++) {
             tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
                 [i, i])
-
         }
     }
 
