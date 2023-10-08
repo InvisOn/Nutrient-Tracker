@@ -54,7 +54,6 @@ const ConsumedTab = () => {
 
     const handlePressRow = (rowId: number) => {
         useRouter().push({
-            // bug why not find editConsumedPage?
             pathname: '/pages/editConsumedPage',
             params: { rowId: rowId }
         })
