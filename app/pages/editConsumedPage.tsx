@@ -56,7 +56,7 @@ const EditConsumedPage: React.FC = () => {
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql(
-                    "DELETE FROM foods WHERE id_food = ?",
+                    "DELETE FROM food_consumed WHERE id_consumed = ?",
                     [rowId]
                 )
             }
