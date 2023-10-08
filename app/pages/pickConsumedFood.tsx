@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { View } from '@/components/Themed'
 import { Stack, useRouter } from 'expo-router'
 import { useContext, useEffect, useState } from 'react'
@@ -6,8 +6,9 @@ import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
 import { convertSqlRows } from '@/database/databaseUtils'
 import DynamicTable from '@/components/DynamicTable'
-import { NutritionPerHectogram } from '@/types/Food'
+import { Nutrition } from '@/types/Food'
 import { ConsumedFoodInput } from '@/components/ConsumedInput'
+import { isValidNumberAboveZero } from '@/utils/numbers'
 
 const PickConsumedFood: React.FC = () => {
     const database = useContext(DatabaseContext)
@@ -17,7 +18,7 @@ const PickConsumedFood: React.FC = () => {
 
     const [rowArray, setRowArray] = useState<string[][]>([])
 
-    const [nutritionContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [nutritionContentSelectedFood, setNutritionContentSelectedFood] = useState<Nutrition>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
     const getFood = (tx: SQLTransaction) => {
         tx.executeSql(
@@ -38,14 +39,14 @@ const PickConsumedFood: React.FC = () => {
                     const row = convertSqlRows(rows)[0].map((n) => Number(n))
                     const [proteinSelectedRow, fatSelectedRow, carbsSelectedRow, kjSelectedRow] = row
 
-                    const nutrientContentRow: NutritionPerHectogram = {
+                    const nutritionContentRow: Nutrition = {
                         gramsProtein: proteinSelectedRow,
                         gramsFat: fatSelectedRow,
                         gramsCarbs: carbsSelectedRow,
                         kjEnergy: kjSelectedRow
                     }
 
-                    setNutrientContentSelectedFood(nutrientContentRow)
+                    setNutritionContentSelectedFood(nutritionContentRow)
                 }
             )
         })
@@ -53,21 +54,11 @@ const PickConsumedFood: React.FC = () => {
 
     const onChangeGramsInput = (value: string) => {
         setGrams(value)
-
-        const gramNumber = Number(value)
-
-        if (value !== '') {
-            if (Number.isNaN(gramNumber) || gramNumber <= 0) {
-                alert("Please only input a number above zero.")
-
-                return
-            }
-        }
     }
 
     const handlePickButtonPress = () => {
-        if (grams === '') {
-            alert("Input grams.")
+        if (!isValidNumberAboveZero(grams)) {
+            alert("Please input a number above zero.")
             return
         } else if (idFood === -1) {
             alert("Select row.")
@@ -76,7 +67,8 @@ const PickConsumedFood: React.FC = () => {
 
         database.transaction(
             (tx: SQLTransaction) => {
-                tx.executeSql("INSERT INTO food_consumed (grams_consumed, id_food) VALUES (?, ?)", [
+                tx.executeSql(
+                    "INSERT INTO food_consumed (grams_consumed, id_food) VALUES (?, ?)", [
                     grams,
                     idFood
                 ])
@@ -98,6 +90,7 @@ const PickConsumedFood: React.FC = () => {
         'Energy'
     ]
 
+    // todo in all inputs round the number to 2 decimal places.
     return (
         <View style={styles.container}>
             <ConsumedFoodInput
@@ -133,22 +126,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1
     },
-    margin: {
-        marginLeft: 6,
-        marginRight: 6
-    },
-    label: {
-        fontSize: 18,
-    },
-    button: {
-        flex: 0.5
-    },
-    input: {
-        height: 30,
-        padding: 5,
-        borderWidth: 1,
-        flex: 0.5
-    }
 })
 
 export default PickConsumedFood

@@ -18,3 +18,19 @@ export const toNumber = (value: any): number => {
 export const roundTo = (n: number, place: number) => {
     return Number(Math.round(Number(String(n) + "e+" + String(place))) + "e-" + place);
 }
+
+/**
+ * Tests whether an string that represents a number of any kind.
+ * @param value
+ */
+export const isValidNumber = (value: string) => {
+    return !(value === '' || Number.isNaN(Number(value)))
+}
+
+/**
+ * Tests whether an string that represents a number of any kind above zero.
+ * @param value
+ */
+export const isValidNumberAboveZero = (value: string) => {
+    return isValidNumber(value) && Number(value) > 0 && value !== ''
+}

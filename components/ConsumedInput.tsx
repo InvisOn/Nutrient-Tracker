@@ -1,13 +1,13 @@
 import { StyleSheet, TextInput } from 'react-native'
 import { View, Text } from '@/components/Themed'
 import Button from '@/components/Button'
-import { NutritionPerHectogram } from '@/types/Food'
+import { Nutrition } from '@/types/Food'
 import { calcNutritionContentFoodPortion } from '@/utils/food'
 
 type Props = {
     grams: string,
     buttonLabel: string,
-    nutritionContentFood: NutritionPerHectogram,
+    nutritionContentFood: Nutrition,
     onChangeGramsInput: (value: string) => void,
     onButtonPress: () => void
 }

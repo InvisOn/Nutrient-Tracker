@@ -5,43 +5,65 @@ import { useContext, useEffect, useState } from 'react'
 import { DatabaseContext } from '@/database/databaseContext'
 import { SQLTransaction } from 'expo-sqlite'
 import Button from '@/components/Button'
-import { NutritionPerHectogram } from '@/types/Food'
+import { Nutrition } from '@/types/Food'
+import { ConsumedFoodInput } from '@/components/ConsumedInput'
+import { convertSqlRows } from '@/database/databaseUtils'
+import { isValidNumberAboveZero } from '@/utils/numbers'
 
 // ? should I add this page to app/_layout.tsx?
 const EditConsumedPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)
-    const rowId = String(params.rowId)
+    const idConsumed = String(params.rowId)
 
-    const [idConsumed, setIdConsumed] = useState<number>(-1)
-    const [idFood, setIdFood] = useState<number>(-1)
-    const [gramsConsumed, setGramsConsumed] = useState<number>(-1)
-
-    const [nutrientContentSelectedFood, setNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
-
-    const [gramsConsumedNutrientContentSelectedFood, setGramsConsumedNutrientContentSelectedFood] = useState<NutritionPerHectogram>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
+    const [gramsConsumed, setGramsConsumed] = useState('')
+    const [nutritionConsumedFoodPerHectogram, setNutritionConsumedFoodPerHectogram] = useState<Nutrition>({ gramsProtein: 0, gramsFat: 0, gramsCarbs: 0, kjEnergy: 0 })
 
     const getConsumedFood = (tx: SQLTransaction) => {
         tx.executeSql(
-            "SELECT id_consumed, id_food, grams_consumed FROM foods WHERE id_food = ?",
-            [rowId],
+            `SELECT food_consumed.grams_consumed,
+                    foods.protein,
+                    foods.fat,
+                    foods.carbs,
+                    foods.energy
+            FROM food_consumed
+            JOIN foods ON food_consumed.id_food = foods.id_food
+            WHERE food_consumed.id_consumed = ?;`,
+            [idConsumed],
             (_, { rows }) => {
-                const row = rows.item(0)
+                const row = convertSqlRows(rows)[0].map((n) => Number(n))
+                const [gramsConsumedFromDb, gramsProteinPerHectogram, gramsFatPerHectogram, gramsCarbsCPerHectogram, kjEnergyPerHectogram] = row
 
-                setIdConsumed(row["id_consumed"])
-                setIdFood(row["id_food"])
-                setGramsConsumed(row["grams_consumed"])
+                const nutritionConsumedFood: Nutrition = {
+                    gramsProtein: gramsProteinPerHectogram,
+                    gramsFat: gramsFatPerHectogram,
+                    gramsCarbs: gramsCarbsCPerHectogram,
+                    kjEnergy: kjEnergyPerHectogram
+                }
+
+                setGramsConsumed(String(gramsConsumedFromDb))
+                setNutritionConsumedFoodPerHectogram(nutritionConsumedFood)
             }
         )
     }
 
-    useEffect(() => { database.transaction(getConsumedFood) }, [])
+    useEffect(() => {
+        database.transaction(getConsumedFood)
+    }, [])
+
+    const onChangeGramsInput = (value: string) => {
+        setGramsConsumed(value)
+    }
 
     const onEditButtonPress = () => {
+        if (!isValidNumberAboveZero(gramsConsumed)) {
+            alert("Please input a number above zero.")
+
+            return
+        }
 
         database.transaction(
             (tx: SQLTransaction) => {
-
                 tx.executeSql(
                     "UPDATE food_consumed SET grams_consumed = ? WHERE id_consumed = ?",
                     [gramsConsumed, idConsumed]
@@ -57,7 +79,7 @@ const EditConsumedPage: React.FC = () => {
             (tx: SQLTransaction) => {
                 tx.executeSql(
                     "DELETE FROM food_consumed WHERE id_consumed = ?",
-                    [rowId]
+                    [idConsumed]
                 )
             }
         )
@@ -67,7 +89,13 @@ const EditConsumedPage: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Button label='DELETE FOOD' onPress={onDeleteButtonPress} />
+            <ConsumedFoodInput
+                grams={gramsConsumed}
+                onChangeGramsInput={onChangeGramsInput}
+                nutritionContentFood={nutritionConsumedFoodPerHectogram}
+                buttonLabel='EDIT CONSUMED'
+                onButtonPress={onEditButtonPress} />
+            <Button label='DELETE CONSUMED' onPress={onDeleteButtonPress} />
             <Stack.Screen options={{ title: "Edit Consumed" }} />
         </View>
     )

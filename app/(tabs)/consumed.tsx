@@ -24,8 +24,6 @@ import Button from '@/components/Button'
 const ConsumedTab = () => {
     const database = useContext(DatabaseContext)
 
-    const [forceRenderId, forceRender] = useForceRender()
-
     const handleAddConsumedButtonPress = () => {
         useRouter().push({
             pathname: '/pages/pickConsumedFood',
@@ -37,12 +35,12 @@ const ConsumedTab = () => {
     const getRowsArrayConsumed = (tx: SQLTransaction) => {
         tx.executeSql(
             `SELECT food_consumed.id_consumed,
-                foods.name,
-                food_consumed.grams_consumed,
-                ROUND(food_consumed.grams_consumed * foods.protein * 0.01, 2) AS total_protein,
-                ROUND(food_consumed.grams_consumed * foods.fat * 0.01, 2)  AS total_fat,
-                ROUND(food_consumed.grams_consumed * foods.carbs * 0.01, 2)  AS total_carbs,
-                ROUND(food_consumed.grams_consumed * foods.energy * 0.01, 2)  AS total_energy
+                    foods.name,
+                    food_consumed.grams_consumed,
+                    ROUND(food_consumed.grams_consumed * foods.protein * 0.01, 2) AS total_protein,
+                    ROUND(food_consumed.grams_consumed * foods.fat * 0.01, 2)  AS total_fat,
+                    ROUND(food_consumed.grams_consumed * foods.carbs * 0.01, 2)  AS total_carbs,
+                    ROUND(food_consumed.grams_consumed * foods.energy * 0.01, 2)  AS total_energy
             FROM food_consumed
             JOIN foods
                 ON food_consumed.id_food = foods.id_food
@@ -85,7 +83,6 @@ const ConsumedTab = () => {
         <View style={styles.container}>
             <Button label='ADD CONSUMED FOOD' onPress={handleAddConsumedButtonPress} />
             <DynamicTable
-                key={forceRenderId}
                 columnsHeader={columnHeader}
                 flexColumn={{ columnIndex: primaryKeyCol, flex: 2 }}
                 numericCols={numericCols}

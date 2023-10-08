@@ -23,6 +23,7 @@ const FoodTab = () => {
     const [forceRenderId, forceRender] = useForceRender()
 
     const handleButtonPress = () => {
+        // !! from here
         if (!validateFood(productName, gramProtein, gramFat, gramCarbs, kjEnergy)) {
             return
         }
@@ -33,6 +34,8 @@ const FoodTab = () => {
             alert("Total nutrition content cannot exceed 100 grams.")
             return
         }
+        // !! to here
+        // todo is bad code. Refactor it.
 
         const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = totalNutritionContent
 

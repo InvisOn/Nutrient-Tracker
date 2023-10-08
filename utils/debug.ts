@@ -44,23 +44,29 @@ export const consoleLogTimeError = (...msg: any) => {
 }
 
 /**
- * Logs `tx.executeSql(sqlStatement, args, ...executeSqlDebug())` output and errors to the console.
+ * Logs output of `tx.executeSql` and `db.transaction` to console. Default type is `'transaction'`.
+ *
+ * Usage examples:
+ *
+ *  - `tx.executeSql(sqlStatement, args, ...consoleLogTimeSqlCallbacks('executeSql'))`
+ *  - `db.transaction(sqlTransactionFunction, ...consoleLogTimeSqlCallbacks())`
  * @returns An array with logging arrow functions.
  */
-export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql') => {
-    if (type === 'executeSql') {
-        return [
-            (_: any, resultSet: any) => consoleLogTime("successCallback executeSql", "resultSet:", resultSet),
-            (_: any, error: any) => {
-                consoleLogTimeError("errorCallback executeSql", "error:", error)
-                return true
-            }
-        ]
-    } else if (type === 'transaction') {
-        return [
-            (error: any) => consoleLogTimeError("errorCallback executeSql", "error:", error),
-            () => consoleLogTime("successCallback executeSql")
-        ]
+export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 'transaction'): any[] => {
+    switch (type) {
+        case 'executeSql':
+            return [
+                (_: any, resultSet: any) => consoleLogTime("successCallback tx.executeSql", "resultSet:", resultSet),
+                (_: any, error: any) => {
+                    consoleLogTimeError("errorCallback tx.executeSql", "error:", error)
+                    return true
+                }
+            ]
+        case 'transaction':
+            return [
+                (error: any) => consoleLogTimeError("errorCallback db.transaction", "error:", error),
+                () => consoleLogTime("successCallback db.transaction")
+            ]
     }
 }
 
