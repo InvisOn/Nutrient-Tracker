@@ -47,14 +47,21 @@ export const consoleLogTimeError = (...msg: any) => {
  * Logs `tx.executeSql(sqlStatement, args, ...executeSqlDebug())` output and errors to the console.
  * @returns An array with logging arrow functions.
  */
-export const consoleLogTimeSqlCallbacks = () => {
-    return [
-        (_: any, resultSet: any) => consoleLogTime("successCallback executeSql", "resultSet:", resultSet),
-        (_: any, error: any) => {
-            consoleLogTimeError("errorCallback executeSql", "error:", error)
-            return true
-        }
-    ]
+export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql') => {
+    if (type === 'executeSql') {
+        return [
+            (_: any, resultSet: any) => consoleLogTime("successCallback executeSql", "resultSet:", resultSet),
+            (_: any, error: any) => {
+                consoleLogTimeError("errorCallback executeSql", "error:", error)
+                return true
+            }
+        ]
+    } else if (type === 'transaction') {
+        return [
+            (error: any) => consoleLogTimeError("errorCallback executeSql", "error:", error),
+            () => consoleLogTime("successCallback executeSql")
+        ]
+    }
 }
 
 /**
