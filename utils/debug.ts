@@ -52,20 +52,27 @@ export const consoleLogTimeError = (...msg: any) => {
  *  - `db.transaction(sqlTransactionFunction, ...consoleLogTimeSqlCallbacks())`
  * @returns An array with logging arrow functions.
  */
-export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 'transaction'): any[] => {
+export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 'transaction', ...msg: any): any[] => {
     switch (type) {
         case 'executeSql':
             return [
-                (_: any, resultSet: any) => consoleLogTime("successCallback tx.executeSql", "resultSet:", resultSet),
+                (_: any, resultSet: any) => {
+                    const { insertId, rowsAffected, rows } = resultSet
+                    consoleLogTime(
+                        "successCallback tx.executeSql", ...msg,
+                        "insertId:", insertId,
+                        "rowsAffected:", rowsAffected,
+                        "rows:", rows)
+                },
                 (_: any, error: any) => {
-                    consoleLogTimeError("errorCallback tx.executeSql", "error:", error)
+                    consoleLogTimeError("errorCallback tx.executeSql", ...msg, "error:", error)
                     return true
                 }
             ]
         case 'transaction':
             return [
-                (error: any) => consoleLogTimeError("errorCallback db.transaction", "error:", error),
-                () => consoleLogTime("successCallback db.transaction")
+                (error: any) => consoleLogTimeError("errorCallback db.transaction", ...msg, "error:", error),
+                () => consoleLogTime("successCallback db.transaction", ...msg)
             ]
     }
 }
