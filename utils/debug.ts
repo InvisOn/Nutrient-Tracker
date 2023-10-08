@@ -62,7 +62,7 @@ export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 
                         "successCallback tx.executeSql", ...msg,
                         "insertId:", insertId,
                         "rowsAffected:", rowsAffected,
-                        "rows:", rows)
+                        "rows:", '\n', ...rows._array)
                 },
                 (_: any, error: any) => {
                     consoleLogTimeError("errorCallback tx.executeSql", ...msg, "error:", error)
