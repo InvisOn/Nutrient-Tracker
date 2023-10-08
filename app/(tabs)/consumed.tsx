@@ -60,7 +60,6 @@ const ConsumedTab = () => {
         })
     }
 
-
     // Re-render when a row is edited or added.
     useFocusEffect(
         useCallback(() => {

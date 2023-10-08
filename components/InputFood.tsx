@@ -79,7 +79,6 @@ export const InputFood: React.FC<Props> = ({
                     value={String(valueGramCarbs)}
                 />
                 <InputWithLabel  // todo add toggle to switch from calls to kJ input
-                    // todo calculates this value as a placeholder from macros
                     label='Energy (kJ):'
                     inputMode='numeric'
                     flex={1}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { StyleSheet, View, Pressable, Text, StyleProp, ViewStyle } from 'react-native';
 
 export type Props = {
@@ -10,7 +9,6 @@ export type Props = {
 const Button: React.FC<Props> = ({
     label, onPress, style
 }) => {
-    // todo How to make this minimum size based on the screen so that it is never too big? Currently the size is controlled by the View that this component is in.
     return (
         <View style={[{ marginVertical: 10, marginHorizontal: 6 }, style]}>
             <Pressable
