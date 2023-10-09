@@ -31,7 +31,7 @@ export default function OverviewTab() {
     return (
         <View style={styles.container}>
             <View style={styles.goalContainer}>
-                <Text style={styles.title}>Nutrient Goal Grams per Day</Text>
+                <Text style={styles.title}>Nutrients Goal Grams per Day</Text>
             </View>
             <View style={styles.goalContainer}>
                 <Text style={[styles.nutrientsText, styles.marginRight]}>
