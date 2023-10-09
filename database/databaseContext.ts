@@ -12,7 +12,7 @@ const createDatabase = (): Database => {
         // !! temporary, to prevent the db from ballooning in size when debugging.
         tx.executeSql("DROP TABLE foods;");
         tx.executeSql("DROP TABLE food_consumed;");
-        tx.executeSql("DROP TABLE nutrient_goals;");
+        tx.executeSql("DROP TABLE nutrients_goal;");
 
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS foods (
@@ -36,7 +36,7 @@ const createDatabase = (): Database => {
         )
 
         tx.executeSql(
-            `CREATE TABLE IF NOT EXISTS nutrient_goals (
+            `CREATE TABLE IF NOT EXISTS nutrients_goal (
                 id_goal INTEGER PRIMARY KEY NOT NULL CHECK (id_goal = 1),
                 grams_protein INTEGER NOT NULL,
                 grams_fat INTEGER NOT NULL,
@@ -44,7 +44,7 @@ const createDatabase = (): Database => {
         )
 
         // !! temporary, to fill the tables for debugging purposes.
-        tx.executeSql("INSERT INTO nutrient_goals (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [1, 2, 3])
+        tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [1, 2, 3])
 
         for (let i = 1; i <= 20; i++) {
             tx.executeSql("INSERT INTO foods (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?);", [
@@ -60,8 +60,6 @@ const createDatabase = (): Database => {
             tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
                 [i, i])
         }
-
-        tx.executeSql("SELECT * FROM food_consumed", [], ...consoleLogTimeSqlCallbacks('executeSql', 'SELECT food_consumed'))
     }
 
     database.transaction(createTable, ...consoleLogTimeSqlCallbacks())
