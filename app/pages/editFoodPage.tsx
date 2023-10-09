@@ -57,7 +57,7 @@ const EditFoodPage: React.FC = () => {
         useRouter().back()
     }
 
-    const onDeleteButtonPress = () => { // bug deleting foods row removes entries join with foods_consumed. Just have a delete flag? Or deleted foods table? Fields id_deleted and id_food.
+    const onDeleteButtonPress = () => { // bug MEDIUM PRIORITY deleting foods row removes entries join with foods_consumed. Just have a delete flag? Or deleted foods table? Fields id_deleted and id_food.
         database.transaction(
             (tx: SQLTransaction) => {
                 tx.executeSql(

@@ -11,9 +11,10 @@ type TableProps = {
     rowArray: (string | number)[][]
 }
 
-// todo add padding between columns DynamicTable
 const DynamicTable: React.FC<TableProps> = ({
     columnsHeader,
+    // todo LOW PRIORITY add styling to individual columns, width, text, etc.
+    // ? What is flexColumn for? to increase the width of a specific column. Can this be named better? Yes, make it so it can make any column any width. Is flex really the best way to control width? Probably, but look for better anyway.
     flexColumn = { columnIndex: 0, flex: 1 },
     numericCols,
     primaryKeyCol,
@@ -55,15 +56,15 @@ const DynamicTable: React.FC<TableProps> = ({
                             }]
                         }}>
                         <View style={styles.rows}>
-                            {row.filter((_, index) => index !== primaryKeyCol).map((value, cellIndex) => (
+                            {row.filter((_, index) => index !== primaryKeyCol).map((colValue, cellIndex) => (
                                 <Text
                                     key={cellIndex}
                                     style={[
-                                        styles.rowText,
+                                        styles.columnText,
                                         { textAlign: numericCols.includes(cellIndex) ? 'right' : 'left' },
                                         { flex: cellIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
                                     ]}>
-                                    {value}
+                                    {colValue}
                                 </Text>
                             ))}
                         </View>
@@ -79,8 +80,9 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: 'bold'
     },
-    rowText: {
-        fontSize: 11
+    columnText: {
+        fontSize: 11,
+        // marginRight: 4
     },
     header: {
         flexDirection: 'row',
