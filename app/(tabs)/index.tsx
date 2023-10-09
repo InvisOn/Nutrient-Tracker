@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native'
 import { Text, View } from '@/components/Themed'
 
-// todo HIGH PRIORITY calculate total nutrients consumed from foods_consumed table of current day
 // todo HIGH PRIORITY add nutrition goal
-// todo HIGH PRIORITY add progress towards nutrition goal tracking
+// todo HIGH PRIORITY add progress towards nutrition goal tracking by calculating total nutrients consumed from foods_consumed table of current day
 // todo MEDIUM PRIORITY add graph over intake over time
 // todo LOW PRIORITY add get database button for db file or csv files
 export default function OverviewTab() {
