@@ -23,7 +23,7 @@ export const ConsumedFoodInput: React.FC<Props> = ({
 
     return (
         <View>
-            <View style={styles.inputContainer} >
+            <View style={styles.container} >
                 <Text style={[styles.label, styles.margin]}>
                     Grams:
                 </Text>
@@ -36,7 +36,7 @@ export const ConsumedFoodInput: React.FC<Props> = ({
                 />
                 <Button label={buttonLabel} onPress={onButtonPress} style={styles.button} />
             </View>
-            <View style={styles.inputContainer}>
+            <View style={styles.container}>
                 <Text style={[styles.nutrientsText, styles.margin]}>
                     Protein: {gramsConsumedNutritionContentFoodPortion.gramsProtein}
                 </Text>
@@ -55,7 +55,7 @@ export const ConsumedFoodInput: React.FC<Props> = ({
 }
 
 const styles = StyleSheet.create({
-    inputContainer: {
+    container: {
         flexDirection: 'row',
         alignItems: 'center'
     },
