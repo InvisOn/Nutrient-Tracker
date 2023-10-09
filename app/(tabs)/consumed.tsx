@@ -8,7 +8,6 @@ import { DatabaseContext } from '@/database/databaseContext'
 import { convertSqlRows } from '@/database/databaseUtils'
 import Button from '@/components/Button'
 
-// todo add date and time of added entries
 const ConsumedTab = () => {
     const database = useContext(DatabaseContext)
 
@@ -23,6 +22,8 @@ const ConsumedTab = () => {
     const getRowsArrayConsumed = (tx: SQLTransaction) => {
         tx.executeSql(
             `SELECT food_consumed.id_consumed,
+                    substr(strftime('%Y-%m-%d', food_consumed.date_consumed), 3),
+                    strftime('%H:%M', food_consumed.time_consumed),
                     foods.name,
                     food_consumed.grams_consumed,
                     ROUND(food_consumed.grams_consumed * foods.protein * 0.01, 2) AS total_protein,
@@ -55,9 +56,11 @@ const ConsumedTab = () => {
     // Re-render the when a row is added.
     useEffect(() => { database.transaction(getRowsArrayConsumed) }, [])
 
-    const numericCols = [1, 2, 3, 4, 5]
+    const numericCols = [3, 4, 5, 6, 7, 8]
     const primaryKeyCol = 0
     const columnHeader = [
+        'Date',
+        'Time',
         'Food',
         'Gram',
         'Protein',
@@ -71,7 +74,6 @@ const ConsumedTab = () => {
             <Button label='ADD CONSUMED FOOD' onPress={handleAddConsumedButtonPress} />
             <DynamicTable
                 columnsHeader={columnHeader}
-                flexColumn={{ columnIndex: primaryKeyCol, flex: 2 }}
                 numericCols={numericCols}
                 primaryKeyCol={primaryKeyCol}
                 onPressRow={handlePressRow}

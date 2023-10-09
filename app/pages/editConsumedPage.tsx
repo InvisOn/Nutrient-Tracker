@@ -11,6 +11,8 @@ import { convertSqlRows } from '@/database/databaseUtils'
 import { isValidNumberAboveZero } from '@/utils/numbers'
 
 // ? should I add this page to app/_layout.tsx?
+// todo make date editable
+// todo make time editable
 const EditConsumedPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)

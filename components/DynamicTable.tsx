@@ -11,6 +11,7 @@ type TableProps = {
     rowArray: (string | number)[][]
 }
 
+// todo add padding between columns DynamicTable
 const DynamicTable: React.FC<TableProps> = ({
     columnsHeader,
     flexColumn = { columnIndex: 0, flex: 1 },
