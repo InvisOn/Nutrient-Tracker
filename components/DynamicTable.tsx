@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
 
 type TableProps = {
     columnsHeader: string[],
-    flexColumn: { columnIndex: number, flex: number },
+    flexColumn?: { columnIndex: number, flex: number },
     numericCols: number[],
     primaryKeyCol: number,
     onPressRow: (id: number) => void,
