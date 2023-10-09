@@ -3,6 +3,8 @@ import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 
 // todo If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
+// optional features
+// keep a table of all nutrient goals set
 const createDatabase = (): Database => {
     const database = openDatabase("food.db")
 
@@ -27,6 +29,8 @@ const createDatabase = (): Database => {
                         id_consumed INTEGER PRIMARY KEY NOT NULL,
                         id_food INTEGER NOT NULL,
                         grams_consumed REAL NOT NULL,
+                        date_consumed TIMESTAMP DEFAULT (date('now','localtime')),
+                        time_consumed DATE DEFAULT (time('now','localtime')),
                     FOREIGN KEY (id_food)
                         REFERENCES foods (id_food));`
         )
@@ -56,9 +60,11 @@ const createDatabase = (): Database => {
             tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
                 [i, i])
         }
+
+        tx.executeSql("SELECT * FROM food_consumed", [], ...consoleLogTimeSqlCallbacks('executeSql', 'SELECT food_consumed'))
     }
 
-    database.transaction(createTable)
+    database.transaction(createTable, ...consoleLogTimeSqlCallbacks())
 
     return database
 }

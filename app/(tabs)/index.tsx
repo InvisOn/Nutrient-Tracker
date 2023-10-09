@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import { Text, View } from '@/components/Themed'
 
-// todo add progress towards goals to db
+// todo calculate total nutrients consumed from foods_consumed table of current day
 // todo add get database button for db file or csv files
 // todo add nutrition goal
 // todo add progress towards nutrition goal tracking
