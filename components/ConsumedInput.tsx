@@ -12,6 +12,7 @@ type Props = {
     onButtonPress: () => void
 }
 
+// todo LOW PRIORITY fix spacing between nutrition appearing unequal
 export const ConsumedFoodInput: React.FC<Props> = ({
     grams,
     onChangeGramsInput,
@@ -60,8 +61,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     nutrientsText: {
-        flexDirection: 'row',
-        alignItems: 'center',
         flex: 1
     },
     margin: {
