@@ -31,6 +31,7 @@ const InputOrText: React.FC<thing> = ({
                 inputMode='numeric'
                 onChangeText={onChangeText}
                 value={value}
+                placeholderTextColor='#9a9a9a'
             />
         )
     } else {
@@ -157,15 +158,30 @@ export default function OverviewTab() {
                 <Text style={[styles.nutrientsText, styles.marginRight]}>
                     Protein:
                 </Text>
-                <InputOrText input={editingGoal} placeholder={proteinGoal} onChangeText={setProteinGoal} value={proteinGoal} text={nutrientsGoal.gramsProtein} />
+                <InputOrText
+                    input={editingGoal}
+                    placeholder={proteinGoal}
+                    onChangeText={setProteinGoal}
+                    value={proteinGoal}
+                    text={nutrientsGoal.gramsProtein} />
                 <Text style={[styles.nutrientsText, styles.marginRight]}>
                     Fat:
                 </Text>
-                <InputOrText input={editingGoal} placeholder={fatGoal} onChangeText={setFatGoal} value={fatGoal} text={nutrientsGoal.gramsFat} />
+                <InputOrText
+                    input={editingGoal}
+                    placeholder={fatGoal}
+                    onChangeText={setFatGoal}
+                    value={fatGoal}
+                    text={nutrientsGoal.gramsFat} />
                 <Text style={[styles.nutrientsText, styles.marginRight]}>
                     Carbs:
                 </Text>
-                <InputOrText input={editingGoal} placeholder={carbsGoal} onChangeText={setCarbsGoal} value={carbsGoal} text={nutrientsGoal.gramsCarbs} />
+                <InputOrText
+                    input={editingGoal}
+                    placeholder={carbsGoal}
+                    onChangeText={setCarbsGoal}
+                    value={carbsGoal}
+                    text={nutrientsGoal.gramsCarbs} />
             </View>
             <Button label={editingGoal ? 'SET GOAL' : 'EDIT GOAL'} onPress={onPress} />
             <View style={styles.goalProgressContainer}>
@@ -237,5 +253,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderWidth: 1,
         flex: 1,
+        borderColor: '#fff',
+        color: '#fff'
     }
 })

@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { View, StyleSheet, ScrollView, Text, Pressable } from 'react-native'
+import { View as NativeView, StyleSheet, ScrollView, Text as NativeText, Pressable } from 'react-native'
+import { Text, View } from '@/components/Themed'
+
 
 type TableProps = {
     columnsHeader: string[],
@@ -55,9 +57,9 @@ const DynamicTable: React.FC<TableProps> = ({
                                 backgroundColor: highLightRowOnPress && selectedRow === row[primaryKeyCol] ? "#d7d7d7" : "#f0f0f0"
                             }]
                         }}>
-                        <View style={styles.rows}>
+                        <NativeView style={styles.rows}>
                             {row.filter((_, index) => index !== primaryKeyCol).map((colValue, cellIndex) => (
-                                <Text
+                                <NativeText
                                     key={cellIndex}
                                     style={[
                                         styles.columnText,
@@ -65,9 +67,9 @@ const DynamicTable: React.FC<TableProps> = ({
                                         { flex: cellIndex == flexColumn.columnIndex ? flexColumn.flex : 1 }
                                     ]}>
                                     {colValue}
-                                </Text>
+                                </NativeText>
                             ))}
-                        </View>
+                        </NativeView>
                     </Pressable>
                 ))}
             </ScrollView>

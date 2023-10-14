@@ -34,6 +34,7 @@ export const ConsumedFoodInput: React.FC<Props> = ({
                     inputMode='decimal'
                     onChangeText={onChangeGramsInput}
                     value={grams}
+                    placeholderTextColor='#9a9a9a'
                 />
                 <Button label={buttonLabel} onPress={onButtonPress} style={styles.button} />
             </View>
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
         height: 30,
         padding: 5,
         borderWidth: 1,
-        flex: 0.5
+        flex: 0.5,
+        color: '#fff'
     }
 })

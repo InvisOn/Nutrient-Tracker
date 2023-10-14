@@ -1,5 +1,5 @@
-import { StyleSheet, Text } from 'react-native'
-import { View } from '@/components/Themed'
+import { Text, View } from '@/components/Themed'
+import { StyleSheet } from 'react-native'
 import InputWithLabel from '@/components/InputWithLabel'
 import Button from '@/components/Button'
 import { calculateKjFromMacros } from '@/utils/food'

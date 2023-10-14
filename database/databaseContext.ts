@@ -10,9 +10,9 @@ const createDatabase = (): Database => {
 
     const createTable = (tx: SQLTransaction) => {
         // !! temporary, to prevent the db from ballooning in size when debugging.
-        tx.executeSql("DROP TABLE foods;");
-        tx.executeSql("DROP TABLE food_consumed;");
-        tx.executeSql("DROP TABLE nutrients_goal;");
+        // tx.executeSql("DROP TABLE foods IF EXISTS;");
+        // tx.executeSql("DROP TABLE food_consumed IF EXISTS;");
+        // tx.executeSql("DROP TABLE nutrients_goal IF EXISTS;");
 
         // foods that can be consumed
         tx.executeSql(

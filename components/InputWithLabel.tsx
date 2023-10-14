@@ -31,6 +31,7 @@ const InputWithLabel: React.FC<Props> = ({
                 inputMode={inputMode}
                 onChangeText={onChangeText}
                 value={value}
+                placeholderTextColor='#9a9a9a'
             />
         </View>
     )
@@ -49,7 +50,9 @@ const styles = StyleSheet.create({
         height: 30,
         padding: 5,
         borderWidth: 1,
-    }
+        borderColor: '#fff',
+        color: '#fff'
+    },
 });
 
 export default InputWithLabel;
