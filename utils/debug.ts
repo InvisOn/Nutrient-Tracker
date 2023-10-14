@@ -54,6 +54,11 @@ export const consoleLogTimeError = (...msg: any) => {
  */
 export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 'transaction', ...msg: any): any[] => {
     switch (type) {
+        case 'transaction':
+            return [
+                (error: any) => consoleLogTimeError("errorCallback db.transaction", ...msg, "error:", error),
+                () => consoleLogTime("successCallback db.transaction", ...msg)
+            ]
         case 'executeSql':
             return [
                 (_: any, resultSet: any) => {
@@ -68,11 +73,6 @@ export const consoleLogTimeSqlCallbacks = (type: 'transaction' | 'executeSql' = 
                     consoleLogTimeError("errorCallback tx.executeSql", ...msg, "error:", error)
                     return true
                 }
-            ]
-        case 'transaction':
-            return [
-                (error: any) => consoleLogTimeError("errorCallback db.transaction", ...msg, "error:", error),
-                () => consoleLogTime("successCallback db.transaction", ...msg)
             ]
     }
 }

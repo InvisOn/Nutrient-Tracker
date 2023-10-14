@@ -11,10 +11,10 @@ type TableProps = {
     rowArray: (string | number)[][]
 }
 
+// todo LOW PRIORITY add styling to individual columns, width, text, etc.
+// ? What is flexColumn for? to increase the width of a specific column. Can this be named better? Yes, make it so it can make any column any width. Is flex really the best way to control width? Probably, but look for better anyway.
 const DynamicTable: React.FC<TableProps> = ({
     columnsHeader,
-    // todo LOW PRIORITY add styling to individual columns, width, text, etc.
-    // ? What is flexColumn for? to increase the width of a specific column. Can this be named better? Yes, make it so it can make any column any width. Is flex really the best way to control width? Probably, but look for better anyway.
     flexColumn = { columnIndex: 0, flex: 1 },
     numericCols,
     primaryKeyCol,

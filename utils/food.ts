@@ -59,7 +59,7 @@ export const validateFood = (productName: string, gramProtein: string | number, 
 
     for (const n of foodNutrients) {
         if (!(Number(n) >= 0)) {
-            alert('Please input only a zero or greater for protein, fat, carbs, and energy.')
+            alert('Please input only numbers.')
 
             return false
         }

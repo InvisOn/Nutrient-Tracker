@@ -31,6 +31,14 @@ export const isValidNumber = (value: string) => {
  * Tests whether an string that represents a number of any kind above zero.
  * @param value
  */
+export const isValidNonNegativeNumber = (value: string) => {
+    return isValidNumber(value) && Number(value) >= 0 && value !== ''
+}
+
+/**
+ * Tests whether an string that represents a number of any kind above zero.
+ * @param value
+ */
 export const isValidNumberAboveZero = (value: string) => {
     return isValidNumber(value) && Number(value) > 0 && value !== ''
 }
