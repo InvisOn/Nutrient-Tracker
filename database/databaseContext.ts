@@ -46,15 +46,6 @@ const createDatabase = (): Database => {
                 grams_carbs REAL NOT NULL);`
         )
 
-        // goals progress day
-        // tx.executeSql(
-        //     `CREATE TABLE IF NOT EXISTS nutrients_goal (
-        //         id_goal INTEGER PRIMARY KEY NOT NULL CHECK (id_goal = 1),
-        //         grams_protein INTEGER NOT NULL,
-        //         grams_fat INTEGER NOT NULL,
-        //         grams_carbs REAL NOT NULL);`
-        // )
-
         // !! temporary, to fill the tables for debugging purposes.
         tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [80, 50, 220])
 
