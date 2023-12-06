@@ -10,9 +10,9 @@ const createDatabase = (): Database => {
 
     const createTable = (tx: SQLTransaction) => {
         // !! temporary, to prevent the db from ballooning in size when debugging.
-        // tx.executeSql("DROP TABLE foods IF EXISTS;");
-        // tx.executeSql("DROP TABLE food_consumed IF EXISTS;");
-        // tx.executeSql("DROP TABLE nutrients_goal IF EXISTS;");
+        // tx.executeSql("DROP TABLE IF EXISTS foods;")
+        // tx.executeSql("DROP TABLE IF EXISTS food_consumed;")
+        // tx.executeSql("DROP TABLE IF EXISTS nutrients_goal;")
 
         // foods that can be consumed
         tx.executeSql(
@@ -47,22 +47,22 @@ const createDatabase = (): Database => {
         )
 
         // !! temporary, to fill the tables for debugging purposes.
-        tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [80, 50, 220])
+        // tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [80, 50, 220])
 
-        for (let i = 1; i <= 20; i++) {
-            tx.executeSql("INSERT INTO foods (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?);", [
-                `Food ${i}`,
-                i,
-                i,
-                i,
-                i
-            ])
-        }
+        // for (let i = 1; i <= 20; i++) {
+        //     tx.executeSql("INSERT INTO foods (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?);", [
+        //         `Food ${i}`,
+        //         i,
+        //         i,
+        //         i,
+        //         i
+        //     ])
+        // }
 
-        for (let i = 1; i <= 20; i++) {
-            tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
-                [i, i])
-        }
+        // for (let i = 1; i <= 20; i++) {
+        //     tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
+        //         [i, i])
+        // }
     }
 
     database.transaction(createTable, ...consoleLogTimeSqlCallbacks())

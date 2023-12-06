@@ -1,0 +1,233 @@
+Loaded "env" configuration for the "preview" profile: ANDROID_NDK_HOME. Learn more: https://docs.expo.dev/build-reference/variables/
+✔ Using remote Android credentials (Expo server)
+✔ Using Keystore from configuration: Build Credentials cuDXOxOy9t (default)
+ANDROID_NDK_HOME environment variable was not specified, continuing build without NDK
+[SETUP_WORKINGDIR] Preparing workingdir /tmp/aj/eas-build-local-nodejs/d119db58-c165-4a7c-a472-1deeef88a871
+[START_BUILD] Starting build
+  "job": {
+    "type": "managed",
+    "platform": "android",
+    "projectRootDirectory": ".",
+    "projectArchive": {
+      "type": "PATH",
+      "path": "/tmp/aj/eas-cli-nodejs/d201bdb1-07e8-494f-bf8b-3f768ff3b98a.tar.gz"
+    },
+    "builderEnvironment": {
+      "env": {
+        "ANDROID_NDK_HOME": "/home/aj/Android/Sdk/ndk/23.1.7779620"
+      }
+    },
+    "cache": {
+      "disabled": false,
+      "paths": [],
+      "clear": false
+    },
+    "updates": {},
+    "buildType": "apk",
+    "username": "ajv19",
+    "experimental": {},
+    "mode": "build",
+    "triggeredBy": "EAS_CLI"
+  }
+[READ_PACKAGE_JSON] Using package.json:
+[READ_PACKAGE_JSON] {
+  "name": "expo_test_app",
+  "main": "expo-router/entry",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "expo": "~49.0.5",
+    "expo-file-system": "~15.4.4",
+    "expo-font": "~11.4.0",
+    "expo-linking": "~5.0.2",
+    "expo-router": "2.0.0",
+    "expo-splash-screen": "~0.20.4",
+    "expo-sqlite": "~11.3.3",
+    "expo-status-bar": "~1.6.0",
+    "expo-system-ui": "~2.4.0",
+    "expo-web-browser": "~12.3.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.72.5",
+    "react-native-gesture-handler": "~2.12.0",
+    "react-native-safe-area-context": "4.6.3",
+    "react-native-screens": "~3.22.0",
+    "react-native-web": "~0.19.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.14",
+    "jest": "^29.2.1",
+    "jest-expo": "~49.0.0",
+    "react-test-renderer": "18.2.0",
+    "typescript": "^5.1.6"
+  },
+  "overrides": {
+    "react-refresh": "~0.14.0"
+  },
+  "resolutions": {
+    "react-refresh": "~0.14.0"
+  },
+  "private": true
+}
+[INSTALL_DEPENDENCIES] Running "npm install" in /tmp/aj/eas-build-local-nodejs/d119db58-c165-4a7c-a472-1deeef88a871/build directory
+[INSTALL_DEPENDENCIES] npm
+[INSTALL_DEPENDENCIES] WARN deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+[INSTALL_DEPENDENCIES] npm
+[INSTALL_DEPENDENCIES] WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+[INSTALL_DEPENDENCIES] npm
+[INSTALL_DEPENDENCIES] WARN deprecated uglify-es@3.3.9: support for ECMAScript is superseded by `uglify-js` as of v3.13.0
+[INSTALL_DEPENDENCIES] added 1543 packages, and audited 1544 packages in 13s
+[INSTALL_DEPENDENCIES] 88 packages are looking for funding
+[INSTALL_DEPENDENCIES]   run `npm fund` for details
+[INSTALL_DEPENDENCIES] 8 moderate severity vulnerabilities
+[INSTALL_DEPENDENCIES] 
+[INSTALL_DEPENDENCIES] To address issues that do not require attention, run:
+[INSTALL_DEPENDENCIES]   npm audit fix
+[INSTALL_DEPENDENCIES] 
+[INSTALL_DEPENDENCIES] To address all issues (including breaking changes), run:
+[INSTALL_DEPENDENCIES]   npm audit fix --force
+[INSTALL_DEPENDENCIES] 
+[INSTALL_DEPENDENCIES] Run `npm audit` for details.
+[READ_APP_CONFIG] Using app configuration:
+[READ_APP_CONFIG] {
+  "name": "Nutrient Tracker",
+  "slug": "nutrient-tracker",
+  "version": "0.1.0",
+  "orientation": "portrait",
+  "icon": "./assets/images/icon.png",
+  "scheme": "demo",
+  "userInterfaceStyle": "automatic",
+  "splash": {
+    "image": "./assets/images/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "ios": {
+    "supportsTablet": true
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/adaptive-icon.png",
+      "backgroundColor": "#ffffff"
+    },
+    "package": "com.ajv19.nutrienttracker"
+  },
+  "web": {
+    "bundler": "metro",
+    "output": "static",
+    "favicon": "./assets/images/favicon.png"
+  },
+  "plugins": [
+    "expo-router"
+  ],
+  "experiments": {
+    "tsconfigPaths": true,
+    "typedRoutes": true
+  },
+  "extra": {
+    "router": {
+      "origin": false
+    },
+    "eas": {
+      "projectId": "08d7004b-f041-478c-a126-8f4caab2c3ee"
+    }
+  },
+  "sdkVersion": "49.0.0",
+  "platforms": [
+    "ios",
+    "android",
+    "web"
+  ]
+}
+[RUN_EXPO_DOCTOR] Running "expo doctor"
+[RUN_EXPO_DOCTOR] Running 10 checks on your project...
+[RUN_EXPO_DOCTOR] ✔ Check Expo config for common issues
+[RUN_EXPO_DOCTOR] ✔ Check package.json for common issues
+[RUN_EXPO_DOCTOR] ✔ Check dependencies for packages that should not be installed directly
+[RUN_EXPO_DOCTOR] ✔ Check for common project setup issues
+[RUN_EXPO_DOCTOR] ✔ Check npm/ yarn versions
+[RUN_EXPO_DOCTOR] ✔ Check Expo config (app.json/ app.config.js) schema
+[RUN_EXPO_DOCTOR] ✔ Check that native modules do not use incompatible support packages
+[RUN_EXPO_DOCTOR] ✔ Check for legacy global CLI installed locally
+[RUN_EXPO_DOCTOR] ✔ Check that native modules use compatible support package versions for installed Expo SDK
+[RUN_EXPO_DOCTOR] ✔ Check that packages match versions required by installed Expo SDK
+[RUN_EXPO_DOCTOR] Didn't find any issues with the project!
+[PREBUILD] - Creating native project directories (./ios and ./android) and updating .gitignore
+[PREBUILD] ✔ Created native project | gitignore skipped
+[PREBUILD] - Updating your package.json scripts, dependencies, and main file
+[PREBUILD] ✔ Updated package.json and added index.js entry point for iOS and Android
+[PREBUILD] - Config syncing
+[PREBUILD] Using node to generate images. This is much slower than using native packages.
+[PREBUILD] › Optionally you can stop the process and try again after successfully running `npm install -g sharp-cli`.
+[PREBUILD] - Config syncing
+[PREBUILD] ✔ Config synced
+[PREBUILD] Running "npm install" in /tmp/aj/eas-build-local-nodejs/d119db58-c165-4a7c-a472-1deeef88a871/build directory
+[PREBUILD] up to date, audited 1544 packages in 1s
+[PREBUILD] 88 packages are looking for funding
+[PREBUILD]   run `npm fund` for details
+[PREBUILD] 8 moderate severity vulnerabilities
+[PREBUILD] 
+[PREBUILD] To address issues that do not require attention, run:
+[PREBUILD]   npm audit fix
+[PREBUILD] 
+[PREBUILD] To address all issues (including breaking changes), run:
+[PREBUILD]   npm audit fix --force
+[PREBUILD] 
+[PREBUILD] Run `npm audit` for details.
+[PREPARE_CREDENTIALS] Writing secrets to the project's directory
+[PREPARE_CREDENTIALS] Injecting signing config into build.gradle
+[RUN_GRADLEW] Running 'gradlew :app:assembleRelease' in /tmp/aj/eas-build-local-nodejs/d119db58-c165-4a7c-a472-1deeef88a871/build/android
+[RUN_GRADLEW] > Task :gradle-plugin:pluginDescriptors
+[RUN_GRADLEW] > Task :gradle-plugin:processResources
+[RUN_GRADLEW] > Task :gradle-plugin:compileKotlin
+[RUN_GRADLEW] > Task :gradle-plugin:compileJava NO-SOURCE
+[RUN_GRADLEW] > Task :gradle-plugin:classes
+[RUN_GRADLEW] > Task :gradle-plugin:jar
+[RUN_GRADLEW] > Task :gradle-plugin:inspectClassesForKotlinIC
+[RUN_GRADLEW] > Configure project :expo
+[RUN_GRADLEW] Using expo modules
+[RUN_GRADLEW]   - [32mexpo-application[0m (5.3.0)
+[RUN_GRADLEW]   - [32mexpo-constants[0m (14.4.2)
+[RUN_GRADLEW] - [32mexpo-file-system[0m (15.4.4)
+[RUN_GRADLEW]   - [32mexpo-font[0m (11.4.0)
+[RUN_GRADLEW]   - [32mexpo-keep-awake[0m (12.3.0)
+[RUN_GRADLEW]   - [32mexpo-modules-core[0m (1.5.9)
+[RUN_GRADLEW]   - [32mexpo-modules-core$android-annotation[0m (1.5.9)
+[RUN_GRADLEW]   - [32mexpo-modules-core$android-annotation-processor[0m (1.5.9)
+[RUN_GRADLEW]   - [32mexpo-splash-screen[0m (0.20.5)
+[RUN_GRADLEW]   - [32mexpo-sqlite[0m (11.3.3)
+[RUN_GRADLEW]   - [32mexpo-system-ui[0m (2.4.0)
+[RUN_GRADLEW]   - [32mexpo-web-browser[0m (12.3.2)
+[RUN_GRADLEW] FAILURE: Build failed with an exception.
+[RUN_GRADLEW] * What went wrong:
+[RUN_GRADLEW] Could not determine the dependencies of task ':expo-application:compileReleaseJavaWithJavac'.
+[RUN_GRADLEW] > Could not determine the dependencies of null.
+[RUN_GRADLEW]    >
+[RUN_GRADLEW] Cannot query the value of this provider because it has no value available.
+[RUN_GRADLEW] * Try:
+[RUN_GRADLEW] > Run with --stacktrace option to get the stack trace.
+[RUN_GRADLEW] > Run with --info or --debug option to get more log output.
+[RUN_GRADLEW] > Run with --scan to get full insights.
+[RUN_GRADLEW] * Get more help at https://help.gradle.org
+[RUN_GRADLEW] BUILD FAILED in 10s
+[RUN_GRADLEW] 5 actionable tasks: 5 executed
+[RUN_GRADLEW] Error: Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.
+
+Build failed
+Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.
+npx exited with non-zero code: 1
+    Error: build command failed.

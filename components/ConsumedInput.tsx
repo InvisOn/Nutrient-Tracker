@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         height: 30,
         padding: 5,
         borderWidth: 1,
+        borderColor: '#fff',
         flex: 0.5,
         color: '#fff'
     }
