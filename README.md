@@ -69,3 +69,7 @@
 
 - todo MEDIUM PRIORITY top level component (pages and tabs) should override the stylesheet margin of a component's outermost JSX element. The most top level component should always handle margin to enforce consistency. Or should a component have its own margin or padding?. Margin is extra space outside border, padding is extra space inside border. I want all UI elements have the same distance from the edge of the screen. Currently that is done haphazardly, and isn't enforced consistently. I have to remember to set the right margin/padding. It is a pain. Is `useContext` a workable solution? Google solutions.
 - todo HIGH PRIORITY DynamicTable does not render on my phone (Nokia g20 with Android 13). Database exists. So, I suspect the problem is with the component. I am using features that are not available on my android version? I do my testing on a simulator which runs Android 14.
+
+# Bugs
+
+- bug some tables are not updating when I food or consumed item is added? verify this

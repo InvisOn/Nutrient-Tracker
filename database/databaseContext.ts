@@ -9,6 +9,7 @@ const createDatabase = (): Database => {
     const database = openDatabase("food.db")
 
     const createTable = (tx: SQLTransaction) => {
+        // todo put this temporary code in its own function.
         // !! temporary, to prevent the db from ballooning in size when debugging.
         // tx.executeSql("DROP TABLE IF EXISTS foods;")
         // tx.executeSql("DROP TABLE IF EXISTS food_consumed;")
@@ -65,7 +66,7 @@ const createDatabase = (): Database => {
         // }
     }
 
-    database.transaction(createTable, ...consoleLogTimeSqlCallbacks())
+    // database.transaction(createTable, ...consoleLogTimeSqlCallbacks())
 
     return database
 }

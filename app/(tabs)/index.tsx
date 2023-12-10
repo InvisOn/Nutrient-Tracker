@@ -70,7 +70,7 @@ export default function OverviewTab() {
         tx.executeSql("SELECT grams_protein, grams_fat, grams_carbs FROM nutrients_goal", [],
             (_, { rows }) => {
                 const goal = rows._array[0]
-                setNutrientsGoal({
+                setNutrientsGoal({ // bug if table empty (no goal set) then ` WARN  Possible Unhandled Promise Rejection (id: 0)`
                     gramsProtein: goal['grams_protein'],
                     gramsFat: goal['grams_fat'],
                     gramsCarbs: goal['grams_carbs']
