@@ -1,0 +1,6 @@
+<application
+    ...
+    android:allowBackup="false"
+    android:fullBackupContent="false">
+    ...
+</application>

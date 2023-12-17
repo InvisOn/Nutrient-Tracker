@@ -1,21 +1,15 @@
-import { consoleLogTimeSqlCallbacks } from "@/utils/debug"
 import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 
 // todo LOW PRIORITY If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
 // optional features
 // keep a table of all nutrient goals set
-const createDatabase = (): Database => {
-    const database = openDatabase("food.db")
+const createDatabase = (path: string): Database => {
+    // bug I implented to db wrong. The actual file name, `database._name`, of the database is `undefined`.
+    // https://docs.expo.dev/versions/latest/sdk/sqlite/
+    const Database = openDatabase(path)
 
     const createTable = (tx: SQLTransaction) => {
-        // todo put this temporary code in its own function.
-        // !! temporary, to prevent the db from ballooning in size when debugging.
-        // tx.executeSql("DROP TABLE IF EXISTS foods;")
-        // tx.executeSql("DROP TABLE IF EXISTS food_consumed;")
-        // tx.executeSql("DROP TABLE IF EXISTS nutrients_goal;")
-
-        // foods that can be consumed
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS foods (
                 id_food INTEGER PRIMARY KEY NOT NULL,
@@ -26,7 +20,6 @@ const createDatabase = (): Database => {
                 energy REAL NOT NULL);`
         )
 
-        // foods that have been consumed
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS food_consumed (
                         id_consumed INTEGER PRIMARY KEY NOT NULL,
@@ -38,7 +31,6 @@ const createDatabase = (): Database => {
                         REFERENCES foods (id_food));`
         )
 
-        // nutrients goal
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS nutrients_goal (
                 id_goal INTEGER PRIMARY KEY NOT NULL CHECK (id_goal = 1),
@@ -47,28 +39,14 @@ const createDatabase = (): Database => {
                 grams_carbs REAL NOT NULL);`
         )
 
-        // !! temporary, to fill the tables for debugging purposes.
-        // tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [80, 50, 220])
-
-        // for (let i = 1; i <= 20; i++) {
-        //     tx.executeSql("INSERT INTO foods (name, protein, fat, carbs, energy) VALUES (?, ?, ?, ?, ?);", [
-        //         `Food ${i}`,
-        //         i,
-        //         i,
-        //         i,
-        //         i
-        //     ])
-        // }
-
-        // for (let i = 1; i <= 20; i++) {
-        //     tx.executeSql("INSERT INTO food_consumed (id_food, grams_consumed) VALUES (?, ?);",
-        //         [i, i])
-        // }
+        // this is easier then having the rest of the code be able to handle an empty database. It may come back to bite me tho.
+        tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [0, 0, 0])
     }
 
-    // database.transaction(createTable, ...consoleLogTimeSqlCallbacks())
+    Database.transaction(createTable)
 
-    return database
+    return Database
 }
 
-export const DatabaseContext = createContext(createDatabase())
+export const Databasepath = "nutrients.db"
+export const DatabaseContext = createContext(createDatabase(Databasepath))
