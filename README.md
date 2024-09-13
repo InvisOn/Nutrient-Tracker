@@ -10,6 +10,33 @@
 - [Expo - docs](https://docs.expo.dev/)
 - [React Native Example for Android and iOS](https://reactnativeexample.com/)
 - Obsidian note: `javascript_typescript_react_native`
+---
+Obsidian Note `javascript_typescript_react_native`
+# 1. Javascript Typescript React Native
+
+# 2. JavaScript Notes
+
+- [ ] read [JavaScript Function Declaration: The 6 Ways](https://dmitripavlutin.com/6-ways-to-declare-javascript-functions/)
+
+# 3. Typescript Notes
+
+- 
+
+# 4. React Notes
+
+- [Passing Data Deeply with Context – React](https://react.dev/learn/passing-data-deeply-with-context#context-an-alternative-to-passing-props)
+- [Passing Props to a Component – React](https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children)
+
+# 5. React Native Notes
+
+## 5.1. Manage Global State
+
+- Read
+	- [ ] [Passing Data Deeply with Context – React](https://react.dev/learn/passing-data-deeply-with-context)
+	- [ ] [useContext – React](https://react.dev/reference/react/useContext)
+	- [ ] [reactjs - What is the proper way to do global state? - Stack Overflow](https://stackoverflow.com/questions/69675357/what-is-the-proper-way-to-do-global-state)
+	- [ ] [How to Add Local Database in React Native | by expertappdevs | Medium](https://medium.com/@expertappdevs/how-to-add-local-database-in-react-native-8a5c13f9118c)
+
 
 ---
 
