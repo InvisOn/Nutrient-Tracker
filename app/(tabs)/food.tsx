@@ -35,7 +35,7 @@ const FoodTab = () => {
             return
         }
         // !! to here
-        // todo LOW PRIORITY is bad code. Refactor it.
+        // TODO: LOW PRIORITY is bad code. Refactor it.
 
         const [gramProteinNumber, gramFatNumber, gramCarbsNumber, kjEnergyNumber] = totalNutritionContent
 

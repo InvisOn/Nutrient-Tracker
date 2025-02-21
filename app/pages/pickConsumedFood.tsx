@@ -90,7 +90,7 @@ const PickConsumedFood: React.FC = () => {
         'Energy'
     ]
 
-    // todo MEDIUM PRIORITY in all inputs round the number to 2 decimal places.
+    // TODO: MEDIUM PRIORITY in all inputs round the number to 2 decimal places.
     return (
         <View style={styles.container}>
             <ConsumedFoodInput

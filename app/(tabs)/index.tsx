@@ -47,8 +47,8 @@ const InputOrText: React.FC<thing> = ({
 
 }
 
-// todo MEDIUM PRIORITY add graph over intake over time
-// todo LOW PRIORITY add get database button for db file or csv files
+// TODO: MEDIUM PRIORITY add graph over intake over time
+// TODO: LOW PRIORITY add get database button for db file or csv files
 export default function OverviewTab() {
     const database = useContext(DatabaseContext)
 

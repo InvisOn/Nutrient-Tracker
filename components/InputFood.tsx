@@ -20,7 +20,7 @@ type Props = {
     onButtonPress: () => void
 }
 
-// todo MEDIUM PRIORITY add alert if total macro content food exceeds 100grams.
+// TODO: MEDIUM PRIORITY add alert if total macro content food exceeds 100grams.
 export const InputFood: React.FC<Props> = ({
     valueProductName,
     valueGramProtein,
@@ -79,7 +79,7 @@ export const InputFood: React.FC<Props> = ({
                     onChangeText={onChangeTextGramCarbs}
                     value={String(valueGramCarbs)}
                 />
-                <InputWithLabel  // todo LOW PRIORITY add toggle to switch from calls to kJ input. components/SwitchWithLabel.tsx
+                <InputWithLabel  // TODO: LOW PRIORITY add toggle to switch from calls to kJ input. components/SwitchWithLabel.tsx
                     label='Energy (kJ):'
                     inputMode='numeric'
                     flex={1}

@@ -1,7 +1,7 @@
 import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 
-// todo LOW PRIORITY If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
+// TODO: LOW PRIORITY If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
 // optional features
 // keep a table of all nutrient goals set
 const createDatabase = (path: string): Database => {

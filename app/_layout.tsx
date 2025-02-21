@@ -42,7 +42,7 @@ export default function RootLayout() {
     return <RootLayoutNav />;
 }
 
-function RootLayoutNav() {
+function RootLayoutNav() { //  TODO: default theme currently has 
     const colorScheme = useColorScheme();
 
     return (

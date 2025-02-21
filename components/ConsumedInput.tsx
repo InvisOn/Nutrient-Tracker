@@ -12,7 +12,7 @@ type Props = {
     onButtonPress: () => void
 }
 
-// todo LOW PRIORITY fix spacing between nutrition appearing unequal
+// TODO: LOW PRIORITY fix spacing between nutrition appearing unequal
 export const ConsumedFoodInput: React.FC<Props> = ({
     grams,
     onChangeGramsInput,
