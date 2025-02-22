@@ -1,12 +1,15 @@
 # Nutrient Tracker
 
-<!-- TODO: add license badge -->
-<!-- TODO: project descript -->
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)
 
 A very simple macro nutrient tracker for Android.
 I wrote it for my own use because I was dissatisfied with the available apps.
 
-It features 
+## Features
+
+- Track food consumed
+- Automatic light and darkmode based on phone settings
 
 # Development
 
