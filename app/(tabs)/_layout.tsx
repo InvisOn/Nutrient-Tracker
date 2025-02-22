@@ -2,11 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Tabs } from 'expo-router'
 import { useColorScheme } from 'react-native'
 import Colors from '@/constants/Colors';
-import { makeModalButton } from '../modal';
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
     color: string;
@@ -15,19 +11,16 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
-
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                tabBarActiveTintColor: Colors[useColorScheme() ?? 'light'].tint,
             }}>
             <Tabs.Screen
                 name="index"
                 options={{
                     title: 'Overview',
                     tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-                    headerRight: makeModalButton(colorScheme)
                 }}
             />
             <Tabs.Screen

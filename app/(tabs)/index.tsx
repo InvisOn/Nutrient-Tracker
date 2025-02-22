@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput, useColorScheme } from 'react-native'
 import { Text, View } from '@/components/Themed'
 import Button from '@/components/Button'
 import { useContext, useEffect, useState } from 'react'
@@ -23,6 +23,27 @@ const InputOrText: React.FC<thing> = ({
     value,
     text
 }) => {
+
+    const styles = StyleSheet.create({
+        nutrientsText: {
+            height: 30,
+            textAlignVertical: 'center',
+            textAlign: 'right',
+            flex: 1
+        },
+        marginRight: {
+            marginRight: 6
+        },
+        input: {
+            height: 30,
+            padding: 5,
+            borderWidth: 1,
+            flex: 1,
+            borderColor: '#fff',
+            color: useColorScheme() === 'dark' ? '#fff' : '#000'
+        }
+    })
+
     if (input) {
         return (
             <TextInput
@@ -47,8 +68,6 @@ const InputOrText: React.FC<thing> = ({
 
 }
 
-// TODO: MEDIUM PRIORITY add graph over intake over time
-// TODO: LOW PRIORITY add get database button for db file or csv files
 export default function OverviewTab() {
     const database = useContext(DatabaseContext)
 
@@ -70,7 +89,7 @@ export default function OverviewTab() {
         tx.executeSql("SELECT grams_protein, grams_fat, grams_carbs FROM nutrients_goal", [],
             (_, { rows }) => {
                 const goal = rows._array[0]
-                setNutrientsGoal({ // bug if table empty (no goal set) then ` WARN  Possible Unhandled Promise Rejection (id: 0)`
+                setNutrientsGoal({
                     gramsProtein: goal['grams_protein'],
                     gramsFat: goal['grams_fat'],
                     gramsCarbs: goal['grams_carbs']
@@ -184,7 +203,7 @@ export default function OverviewTab() {
                     text={nutrientsGoal.gramsCarbs} />
             </View>
             <Button label={editingGoal ? 'SET GOAL' : 'EDIT GOAL'} onPress={onPress} />
-            <View style={styles.goalProgressContainer}>
+            <View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Progress Nutrients Goal</Text>
                 </View>
@@ -228,32 +247,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
-    goalProgressContainer: {
-    },
     nutrientsText: {
         height: 30,
         textAlignVertical: 'center',
         textAlign: 'right',
         flex: 1
     },
-    nutrientsTextGoal: {
-        height: 30,
-        textAlignVertical: 'center',
-        textAlign: 'left',
-        flex: 1
-    },
     marginRight: {
         marginRight: 6
     },
-    marginRightWhileInput: {
-        marginRight: 0
-    },
-    input: {
-        height: 30,
-        padding: 5,
-        borderWidth: 1,
-        flex: 1,
-        borderColor: '#fff',
-        color: '#fff'
-    }
 })

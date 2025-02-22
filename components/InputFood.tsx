@@ -79,7 +79,7 @@ export const InputFood: React.FC<Props> = ({
                     onChangeText={onChangeTextGramCarbs}
                     value={String(valueGramCarbs)}
                 />
-                <InputWithLabel  // TODO: LOW PRIORITY add toggle to switch from calls to kJ input. components/SwitchWithLabel.tsx
+                <InputWithLabel
                     label='Energy (kJ):'
                     inputMode='numeric'
                     flex={1}

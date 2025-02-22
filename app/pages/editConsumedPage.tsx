@@ -10,9 +10,6 @@ import { ConsumedFoodInput } from '@/components/ConsumedInput'
 import { convertSqlRows } from '@/database/databaseUtils'
 import { isValidNumberAboveZero } from '@/utils/numbers'
 
-// ? should I add this page to app/_layout.tsx?
-// TODO: MEDIUM PRIORITY make date editable
-// TODO: MEDIUM PRIORITY make time editable
 const EditConsumedPage: React.FC = () => {
     const params = useLocalSearchParams()
     const database = useContext(DatabaseContext)

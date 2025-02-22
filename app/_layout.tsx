@@ -42,14 +42,11 @@ export default function RootLayout() {
     return <RootLayoutNav />;
 }
 
-function RootLayoutNav() { //  TODO: default theme currently has 
-    const colorScheme = useColorScheme();
-
+function RootLayoutNav() {
     return (
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={useColorScheme() === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
             </Stack>
         </ThemeProvider>
     );

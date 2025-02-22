@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput, useColorScheme } from 'react-native'
 import { View, Text } from '@/components/Themed'
 import Button from '@/components/Button'
 import { Nutrition } from '@/types/Food'
@@ -21,6 +21,34 @@ export const ConsumedFoodInput: React.FC<Props> = ({
     onButtonPress
 }) => {
     const gramsConsumedNutritionContentFoodPortion = calcNutritionContentFoodPortion(Number(grams), nutritionContentFood)
+
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
+        nutrientsText: {
+            flex: 1
+        },
+        margin: {
+            marginLeft: 6,
+            marginRight: 6
+        },
+        label: {
+            fontSize: 18,
+        },
+        button: {
+            flex: 0.5
+        },
+        input: {
+            height: 30,
+            padding: 5,
+            borderWidth: 1,
+            borderColor: '#fff',
+            flex: 0.5,
+            color: useColorScheme() === 'dark' ? '#fff' : '#000'
+        }
+    })
 
     return (
         <View>
@@ -55,31 +83,3 @@ export const ConsumedFoodInput: React.FC<Props> = ({
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    nutrientsText: {
-        flex: 1
-    },
-    margin: {
-        marginLeft: 6,
-        marginRight: 6
-    },
-    label: {
-        fontSize: 18,
-    },
-    button: {
-        flex: 0.5
-    },
-    input: {
-        height: 30,
-        padding: 5,
-        borderWidth: 1,
-        borderColor: '#fff',
-        flex: 0.5,
-        color: '#fff'
-    }
-})

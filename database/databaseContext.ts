@@ -1,13 +1,8 @@
 import { openDatabase, Database, SQLTransaction } from "expo-sqlite"
 import { createContext } from 'react'
 
-// TODO: LOW PRIORITY If I want to change to field names to be more descriptive (fat -> fat_per_hectogram)it is a hassle to change it everywhere in the code base. Perhaps an ORM can help?
-// optional features
-// keep a table of all nutrient goals set
-const createDatabase = (path: string): Database => {
-    // bug I implented to db wrong. The actual file name, `database._name`, of the database is `undefined`.
-    // https://docs.expo.dev/versions/latest/sdk/sqlite/
-    const Database = openDatabase(path)
+function createDatabase(): Database {
+    const Database = openDatabase("nutrients.db")
 
     const createTable = (tx: SQLTransaction) => {
         tx.executeSql(
@@ -39,7 +34,7 @@ const createDatabase = (path: string): Database => {
                 grams_carbs REAL NOT NULL);`
         )
 
-        // this is easier then having the rest of the code be able to handle an empty database. It may come back to bite me tho.
+        // This is easier then having the rest of the code be able to handle an empty database.
         tx.executeSql("INSERT INTO nutrients_goal (grams_protein, grams_fat, grams_carbs) VALUES (?, ?, ?);", [0, 0, 0])
     }
 
@@ -48,5 +43,4 @@ const createDatabase = (path: string): Database => {
     return Database
 }
 
-export const Databasepath = "nutrients.db"
-export const DatabaseContext = createContext(createDatabase(Databasepath))
+export const DatabaseContext = createContext(createDatabase())
