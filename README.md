@@ -25,9 +25,9 @@ Install [EAS CLI](https://docs.expo.dev/build/setup/). Then run `eas build --pla
 
 # Screenshots
 
-[consumed]( consumed.png )
-[edit_consumed_food]( edit_consumed_food.png )
-[edit_food]( edit_food.png )
-[foods]( foods.png )
-[overview]( overview.png )
-[pick_consumed_food]( pick_consumed_food.png )
+![consumed]( images/consumed.png )
+![edit_consumed_food]( images/edit_consumed_food.png )
+![edit_food]( images/edit_food.png )
+![foods]( images/foods.png )
+![overview]( images/overview.png )
+![pick_consumed_food]( images/pick_consumed_food.png )
